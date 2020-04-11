@@ -4,7 +4,7 @@ class PipelinesController < ApplicationController
   # GET /pipelines
   # GET /pipelines.json
   def index
-    @pipelines = Pipeline.all
+    @pipelines = Pipeline.all.includes(:runs)
   end
 
   # GET /pipelines/1
