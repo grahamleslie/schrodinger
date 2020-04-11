@@ -1,18 +1,17 @@
 # == Schema Information
 #
-# Table name: pipelines
+# Table name: secrets
 #
 #  id         :integer          not null, primary key
 #  name       :string
+#  value      :string
+#  domain     :string
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
-#  repo       :string
-#  triggers   :string
-#  domain     :string
 #
 require 'test_helper'
 
-class PipelineTest < ActiveSupport::TestCase
+class SecretTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end

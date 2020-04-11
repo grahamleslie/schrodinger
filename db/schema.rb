@@ -10,14 +10,35 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_11_033250) do
+ActiveRecord::Schema.define(version: 2020_04_11_192654) do
 
   create_table "pipelines", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "script"
     t.string "repo"
+    t.string "triggers"
+    t.string "domain"
   end
 
+  create_table "runs", force: :cascade do |t|
+    t.integer "num"
+    t.datetime "completed_at"
+    t.datetime "failed_at"
+    t.string "output"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "pipeline_id"
+    t.index ["pipeline_id"], name: "index_runs_on_pipeline_id"
+  end
+
+  create_table "secrets", force: :cascade do |t|
+    t.string "name"
+    t.string "value"
+    t.string "domain"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  add_foreign_key "runs", "pipelines"
 end

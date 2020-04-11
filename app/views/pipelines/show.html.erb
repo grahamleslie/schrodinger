@@ -5,5 +5,20 @@
   <%= @pipeline.name %>
 </p>
 
+<p>
+  <strong>Repo:</strong>
+  <%= @pipeline.repo %>
+</p>
+
+<p>
+  <strong>Triggers:</strong>
+  <%= @pipeline.triggers %>
+</p>
+
+<p>
+  <strong>Domain:</strong>
+  <%= @pipeline.domain %>
+</p>
+
 <%= link_to 'Edit', edit_pipeline_path(@pipeline) %> |
 <%= link_to 'Back', pipelines_path %>

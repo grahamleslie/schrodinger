@@ -23,7 +23,8 @@ class PipelinesController < ApplicationController
 
   # GET /pipelines/1/run
   def run
-    @output = `#{@pipeline.script}`
+    @run = @pipeline.runs.create({ num: @pipeline.runs.count })
+    redirect_to "/pipelines/#{@pipeline.id}/runs/#{@run.id}"
   end
 
   # POST /pipelines
@@ -74,6 +75,6 @@ class PipelinesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def pipeline_params
-      params.require(:pipeline).permit(:name, :script, :repo)
+      params.require(:pipeline).permit(:name, :repo, :triggers, :domain)
     end
 end

@@ -1,0 +1,23 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Num:</strong>
+  <%= @run.num %>
+</p>
+
+<p>
+  <strong>Competed At:</strong>
+  <%= @run.completed_at || 'Not yet Completed' %>
+</p>
+
+<p>
+  <strong>Failed At:</strong>
+  <%= @run.failed_at || 'Not Failed' %>
+</p>
+
+<p>
+  <strong>Output:</strong>
+  <%= @run.output %>
+</p>
+
+<%= link_to 'Back to Pipeline', pipeline_path(@pipeline) %>
