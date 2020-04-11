@@ -5,3 +5,4 @@
 - Cleanup tmp and old runs
 - Output latest commit
 - Actually check for changes and run automatically
+- Steam output from build
