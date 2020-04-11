@@ -12,7 +12,6 @@ class RunPipelineJob < ApplicationJob
       begin_run
       create_work_directory
       clone_repository
-      return
       build_image
       run_image
       complete_run
