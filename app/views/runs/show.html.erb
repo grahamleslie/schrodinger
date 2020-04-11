@@ -1,3 +1,5 @@
+<meta http-equiv="Refresh" content="300">
+
 <p id="notice"><%= notice %></p>
 
 <p>
@@ -22,7 +24,9 @@
 
 <p>
   <strong>Output:</strong>
-  <%= @run.output %>
 </p>
+<pre>
+<%== @run.output %>
+</pre>
 
 <%= link_to 'Back to Pipeline', pipeline_path(@pipeline) %>

@@ -17,4 +17,10 @@
 #
 class Run < ApplicationRecord
     belongs_to :pipeline, class_name: 'Pipeline'
+
+    after_create :run
+
+    def run
+        RunPipelineJob.perform_later id
+    end
 end
