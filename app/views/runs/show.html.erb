@@ -1,5 +1,3 @@
-<meta http-equiv="Refresh" content="300">
-
 <p id="notice"><%= notice %></p>
 
 <p>
@@ -10,6 +8,11 @@
 <p>
   <strong>Num:</strong>
   #<%= @run.num %>
+</p>
+
+<p>
+  <strong>Status:</strong>
+  <%= @run.status %>
 </p>
 
 <p>
@@ -29,4 +32,16 @@
 <%== @run.output %>
 </pre>
 
+<p>
+  <strong>Work Directory:</strong>
+</p>
+
+<pre><%= @run.work_directory %></pre>
+
 <%= link_to 'Back to Pipeline', pipeline_path(@pipeline) %>
+
+<script type="text/javascript">
+  setTimeout(function(){
+    window.location.reload(1);
+  }, 5000);
+</script>

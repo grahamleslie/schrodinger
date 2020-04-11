@@ -1,5 +1,5 @@
 bundle install
-rake db:migrate
+rails db:migrate
 annotate --models -i
 annotate --routes
 rails s

@@ -1,24 +1,15 @@
-# README
+# Schrodinger
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Schrodinger is a very simple CI tool for Docker hosts. It will clone your repo, build a multi-stage Dockerfile, and run it.
 
-Things you may want to cover:
+## Installation
 
-* Ruby version
+TODO
 
-* System dependencies
+## Development
 
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+- Install Docker.
+- Make sure [`docker` is accessible without sudo](https://askubuntu.com/a/477554).
+- Clone this repository.
+- `rails db:seed` to seed the database.
+- `./start.sh` to start the local development server.

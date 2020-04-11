@@ -26,7 +26,8 @@
   <% @pipeline.runs.each do |run| %>
     <%= link_to "/pipelines/#{@pipeline.id}/runs/#{run.id}" do %>
       <strong>#<%= run.id %></strong>
-      <%= run.created_at %>
+      <%= run.created_at %> 
+      (<i><%= run.status %></i>)
     <% end %>
     <br />
   <% end %>
