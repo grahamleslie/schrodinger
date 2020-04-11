@@ -1,0 +1,10 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @pipeline.name %>
+  <%= @pipeline.steps.count %>
+</p>
+
+<%= link_to 'Edit', edit_pipeline_path(@pipeline) %> |
+<%= link_to 'Back', pipelines_path %>
