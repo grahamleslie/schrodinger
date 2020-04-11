@@ -48,9 +48,9 @@ class Run < ApplicationRecord
         if in_progress?
             "In Progress..."
         elsif completed_at?
-            "Completed"
+            "✔️ Completed"
         elsif failed_at?
-            "Failed"
+            "☠️ Failed"
         end
     end
 end
