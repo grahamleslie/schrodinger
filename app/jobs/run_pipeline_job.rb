@@ -12,6 +12,7 @@ class RunPipelineJob < ApplicationJob
       begin_run
       create_work_directory
       clone_repository
+      return
       build_image
       run_image
       complete_run
@@ -35,6 +36,11 @@ class RunPipelineJob < ApplicationJob
     log "Cloning repository #{@pipeline.repo}..."
     git = Git.clone(@pipeline.repo, './', path: @run.work_directory)
     log "Cloned repository."
+    commit = git.log[0]
+    @run.commit_sha = commit.sha
+    @run.commit_message = commit.message
+    @run.save!
+    log "Commit is #{commit.sha} (#{commit.message}) by #{commit.author.email} at #{commit.date.strftime("%m-%d-%y")}"
   end
 
   def build_image

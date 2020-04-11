@@ -2,14 +2,16 @@
 #
 # Table name: runs
 #
-#  id           :integer          not null, primary key
-#  num          :integer
-#  completed_at :datetime
-#  failed_at    :datetime
-#  output       :string
-#  created_at   :datetime         not null
-#  updated_at   :datetime         not null
-#  pipeline_id  :integer
+#  id             :integer          not null, primary key
+#  num            :integer
+#  completed_at   :datetime
+#  failed_at      :datetime
+#  output         :string
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
+#  pipeline_id    :integer
+#  commit_sha     :string
+#  commit_message :string
 #
 # Indexes
 #

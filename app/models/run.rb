@@ -2,14 +2,16 @@
 #
 # Table name: runs
 #
-#  id           :integer          not null, primary key
-#  num          :integer
-#  completed_at :datetime
-#  failed_at    :datetime
-#  output       :string
-#  created_at   :datetime         not null
-#  updated_at   :datetime         not null
-#  pipeline_id  :integer
+#  id             :integer          not null, primary key
+#  num            :integer
+#  completed_at   :datetime
+#  failed_at      :datetime
+#  output         :string
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
+#  pipeline_id    :integer
+#  commit_sha     :string
+#  commit_message :string
 #
 # Indexes
 #
@@ -30,6 +32,14 @@ class Run < ApplicationRecord
 
     def work_directory
         "#{Rails.root}/tmp/#{docker_tag}"
+    end
+
+    def commit_sha_short
+        sha = commit_sha
+        if sha.nil? || sha.length < 7
+            return
+        end
+        sha[0..7]
     end
 
     def in_progress?

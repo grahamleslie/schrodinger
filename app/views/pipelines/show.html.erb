@@ -28,6 +28,7 @@
       <strong>#<%= run.id %></strong>
       <%= run.created_at %> 
       (<i><%= run.status %></i>)
+      <%= run.commit_sha_short %>
     <% end %>
     <br />
   <% end %>

@@ -26,6 +26,14 @@
 </p>
 
 <p>
+  <strong>Git Commit:</strong>
+  <%= @run.commit_sha || 'Hasn\'t Cloned' %>
+</p>
+<pre>
+<%= @run.commit_message || 'Hasn\'t Cloned'%>
+</pre>
+
+<p>
   <strong>Output:</strong>
 </p>
 <pre>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_11_192654) do
+ActiveRecord::Schema.define(version: 2020_04_11_224327) do
 
   create_table "pipelines", force: :cascade do |t|
     t.string "name"
@@ -29,6 +29,8 @@ ActiveRecord::Schema.define(version: 2020_04_11_192654) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "pipeline_id"
+    t.string "commit_sha"
+    t.string "commit_message"
     t.index ["pipeline_id"], name: "index_runs_on_pipeline_id"
   end
 
