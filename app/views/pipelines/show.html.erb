@@ -20,5 +20,18 @@
   <%= @pipeline.domain %>
 </p>
 
+<p>
+  <strong>Runs:</strong>
+  <br />
+  <% @pipeline.runs.each do |run| %>
+    <%= link_to "/pipelines/#{@pipeline.id}/runs/#{run.id}" do %>
+      <strong>#<%= run.id %></strong>
+      <%= run.created_at %>
+    <% end %>
+    <br />
+  <% end %>
+  </p>
+
+<%= link_to 'Run', run_pipeline_path(@pipeline) %> |
 <%= link_to 'Edit', edit_pipeline_path(@pipeline) %> |
-<%= link_to 'Back', pipelines_path %>
+<%= link_to 'Back to Pipelines', pipelines_path %>

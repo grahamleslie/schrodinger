@@ -1,18 +1,23 @@
 <p id="notice"><%= notice %></p>
 
 <p>
+  <strong>Pipeline:</strong>
+  <%= @pipeline.name %>
+</p>
+
+<p>
   <strong>Num:</strong>
-  <%= @run.num %>
+  #<%= @run.num %>
 </p>
 
 <p>
   <strong>Competed At:</strong>
-  <%= @run.completed_at || 'Not yet Completed' %>
+  <%= @run.completed_at || 'Hasn\'t Completed' %>
 </p>
 
 <p>
   <strong>Failed At:</strong>
-  <%= @run.failed_at || 'Not Failed' %>
+  <%= @run.failed_at || 'Hasn\'t Failed' %>
 </p>
 
 <p>

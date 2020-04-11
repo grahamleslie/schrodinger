@@ -6,7 +6,8 @@
   <thead>
     <tr>
       <th>Name</th>
-      <th colspan="3"></th>
+      <th>Runs</th>
+      <th colspan="4"></th>
     </tr>
   </thead>
 
@@ -14,6 +15,7 @@
     <% @pipelines.each do |pipeline| %>
       <tr>
         <td><%= pipeline.name %></td>
+        <td><%= pipeline.runs.count %></td>
         <td><%= link_to 'Show', pipeline %></td>
         <td><%= link_to 'Edit', edit_pipeline_path(pipeline) %></td>
         <td><%= link_to 'Destroy', pipeline, method: :delete, data: { confirm: 'Are you sure?' } %></td>
@@ -22,15 +24,5 @@
     <% end %>
   </tbody>
 </table>
-
-<h4>TODO</h4>
-<ul>
-  <li>Use Dockerfile instead</li>
-  <li>Clone the repo</li>
-  <li>Create job model</li>
-  <li>On run, create job, open it, run in background, refresh job</li>
-</ul>
-
-<br>
 
 <%= link_to 'New Pipeline', new_pipeline_path %>
