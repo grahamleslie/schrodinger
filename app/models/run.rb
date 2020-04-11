@@ -12,6 +12,7 @@
 #  pipeline_id    :integer
 #  commit_sha     :string
 #  commit_message :string
+#  branch         :string
 #
 # Indexes
 #
@@ -56,11 +57,11 @@ class Run < ApplicationRecord
 
     def status
         if in_progress?
-            "In Progress..."
+            "#{branch} in Progress..."
         elsif completed_at?
-            "✔️ Completed"
+            "✔️ Completed #{branch}"
         elsif failed_at?
-            "☠️ Failed"
+            "☠️ Failed #{branch}"
         end
     end
 end

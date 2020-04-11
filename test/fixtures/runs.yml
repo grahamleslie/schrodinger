@@ -12,6 +12,7 @@
 #  pipeline_id    :integer
 #  commit_sha     :string
 #  commit_message :string
+#  branch         :string
 #
 # Indexes
 #

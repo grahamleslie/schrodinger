@@ -6,7 +6,7 @@ class RunPipelineJob < ApplicationJob
   def perform(run_id)
     @run = Run.find run_id
     @pipeline = @run.pipeline
-    @branch = "master"
+    @branch = @run.branch
     
     begin
       begin_run
@@ -35,6 +35,9 @@ class RunPipelineJob < ApplicationJob
     log "Cloning repository #{@pipeline.repo}..."
     git = Git.clone(@pipeline.repo, './', path: @run.work_directory)
     log "Cloned repository."
+    log "Checking out #{@branch}..."
+    git.checkout @branch
+    log "Checked out branch."
     commit = git.log[0]
     @run.commit_sha = commit.sha
     @run.commit_message = commit.message

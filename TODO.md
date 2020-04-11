@@ -7,3 +7,6 @@
 - Actually check for changes and run automatically
 - Use the branch specification
 - Steam output from build
+- Average build time for pipeline
+  - Progress bar
+- Manual run other than master
