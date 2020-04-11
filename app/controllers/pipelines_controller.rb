@@ -1,5 +1,5 @@
 class PipelinesController < ApplicationController
-  before_action :set_pipeline, only: [:show, :edit, :update, :destroy]
+  before_action :set_pipeline, only: [:show, :edit, :update, :destroy, :run]
 
   # GET /pipelines
   # GET /pipelines.json
@@ -19,6 +19,11 @@ class PipelinesController < ApplicationController
 
   # GET /pipelines/1/edit
   def edit
+  end
+
+  # GET /pipelines/1/run
+  def run
+    @output = `#{@pipeline.script}`
   end
 
   # POST /pipelines
@@ -69,6 +74,6 @@ class PipelinesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def pipeline_params
-      params.require(:pipeline).permit(:name)
+      params.require(:pipeline).permit(:name, :script, :repo)
     end
 end

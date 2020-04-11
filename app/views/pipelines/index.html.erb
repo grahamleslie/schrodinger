@@ -17,6 +17,7 @@
         <td><%= link_to 'Show', pipeline %></td>
         <td><%= link_to 'Edit', edit_pipeline_path(pipeline) %></td>
         <td><%= link_to 'Destroy', pipeline, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Run', run_pipeline_path(pipeline) %></td>
       </tr>
     <% end %>
   </tbody>
