@@ -27,6 +27,12 @@ class PipelinesController < ApplicationController
     redirect_to "/pipelines/#{@pipeline.id}/runs/#{@run.id}"
   end
 
+  # GET /pipelines/check
+  def check
+    CheckForBuildsJob.perform_later
+    head :ok
+  end
+
   # POST /pipelines
   # POST /pipelines.json
   def create

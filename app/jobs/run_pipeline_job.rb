@@ -1,6 +1,8 @@
 require 'mixlib/shellout'
 
 class RunPipelineJob < ApplicationJob
+  queue_as :default
+  
   DOCKERFILE = 'Dockerfile.schrodinger'
 
   def perform(run_id)
