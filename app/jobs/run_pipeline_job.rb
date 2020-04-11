@@ -1,9 +1,13 @@
+require 'mixlib/shellout'
+
 class RunPipelineJob < ApplicationJob
+  DOCKERFILE = 'Dockerfile.schrodinger'
+
   def perform(run_id)
     @run = Run.find run_id
     @pipeline = @run.pipeline
     @branch = "master"
-
+    
     begin
       begin_run
       create_work_directory
@@ -23,25 +27,24 @@ class RunPipelineJob < ApplicationJob
 
   def create_work_directory
     Dir.mkdir @run.work_directory
-    log "Created #{@run.work_directory}"
+    log "Created work directory #{@run.work_directory}."
   end
 
   def clone_repository
-    git = Git.clone(@pipeline.repo, @pipeline.name, path: @run.work_directory)
-    log "Cloned repository #{@pipeline.repo}"
+    log "Cloning repository #{@pipeline.repo}..."
+    git = Git.clone(@pipeline.repo, './', path: @run.work_directory)
+    log "Cloned repository."
   end
 
   def build_image
     log "Building image #{@run.docker_tag}..."
-    cmd = "
-cd #{@run.work_directory}
-docker build -t #{@run.docker_tag} .
-"
-    cmd = "ls -la"
-    output = fork { exec(cmd) }
+    
+    exec_build = Mixlib::ShellOut.new("docker build -f #{DOCKERFILE} -t #{@run.docker_tag} .", cwd: @run.work_directory)
+    exec_build.run_command
+    exec_build.error!
+    log exec_build.stdout
 
-    log "#{output}"
-    log "Finished building #{@run.docker_tag}."
+    log "Built image."
   end
 
   def complete_run

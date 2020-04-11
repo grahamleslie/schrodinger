@@ -23,7 +23,7 @@
 <p>
   <strong>Runs:</strong>
   <br />
-  <% @pipeline.runs.each do |run| %>
+  <% @pipeline.runs.order(num: :desc).each do |run| %>
     <%= link_to "/pipelines/#{@pipeline.id}/runs/#{run.id}" do %>
       <strong>#<%= run.id %></strong>
       <%= run.created_at %> 

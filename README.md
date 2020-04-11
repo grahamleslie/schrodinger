@@ -1,6 +1,6 @@
 # Schrodinger
 
-Schrodinger is a very simple CI tool for Docker hosts. It will clone your repo, build a multi-stage Dockerfile, and run it.
+Schrodinger is a very simple CI tool for \*nix Docker hosts. It will clone your repo, build a multi-stage Dockerfile, and run it.
 
 ## Installation
 

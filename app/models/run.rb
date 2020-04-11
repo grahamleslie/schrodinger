@@ -25,7 +25,7 @@ class Run < ApplicationRecord
     end
 
     def docker_tag
-        I18n.transliterate("#{pipeline.name}_#{created_at}").gsub(/[^\w_]/, '_').tr(' ','_')
+        I18n.transliterate("#{pipeline.name}_#{created_at}").gsub(/[^\w_]/, '_').tr(' ','_').downcase
     end
 
     def work_directory
