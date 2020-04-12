@@ -31,6 +31,7 @@ gem 'bootsnap', '>= 1.4.2', require: false
 gem 'git', '~> 1.6'
 gem 'mixlib-shellout', '~> 3.0', '>= 3.0.9'
 gem 'sassc', '~> 2.1.0'
+gem 'rufus-scheduler', '~> 3.6'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

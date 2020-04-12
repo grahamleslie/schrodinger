@@ -1,7 +1,7 @@
 # == Route Map
 #
 #                                Prefix Verb   URI Pattern                                                                              Controller#Action
-#                                  root GET    /                                                                                        pipelines#index
+#                                  root GET    /                                                                                        redirect(301, /pipelines)
 #                               secrets GET    /secrets(.:format)                                                                       secrets#index
 #                                       POST   /secrets(.:format)                                                                       secrets#create
 #                            new_secret GET    /secrets/new(.:format)                                                                   secrets#new
