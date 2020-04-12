@@ -54,7 +54,7 @@ Required arguments:
 
 It should only be run in a trusted environment with trusted users, because:
 
-- It runs in privileged mode and mounts the Docker socket, so it has control of it's Docker host.
+- It runs in privileged mode and mounts the Docker socket, so it has control of its Docker host.
 - Secrets are stored in plaintext.
 - Git host key checking is disabled to automatically accept hosts when cloning repositories.
 
