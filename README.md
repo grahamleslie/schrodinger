@@ -18,7 +18,7 @@ There's a couple steps to get started:
 
 ## Installation
 
-TODO: Replace with Dockerhub image once on registry.
+TODO: Replace with DockerHub image once on registry.
 
 ```bash
 docker build -t schrodinger .
@@ -30,7 +30,8 @@ docker run \
     -v /usr/bin/docker:/usr/bin/docker \
     -v /usr/lib/x86_64-linux-gnu/libltdl.so.7:/usr/lib/x86_64-linux-gnu/libltdl.so.7 \
     -v /var/run/docker.sock:/var/run/docker.sock \
-    -v $HOME/.ssh:/app/.ssh \
+    -v $HOME/.ssh:/app/.ssh:ro \
+    -v schrodinger:/persistent/ \
     --privileged=true \
     -t schrodinger
 ```
