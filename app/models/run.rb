@@ -13,6 +13,7 @@
 #  commit_sha     :string
 #  commit_message :string
 #  branch         :string
+#  triggered_by   :string
 #
 # Indexes
 #

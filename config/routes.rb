@@ -9,6 +9,7 @@
 #                                       PATCH  /secrets/:id(.:format)                                                                   secrets#update
 #                                       PUT    /secrets/:id(.:format)                                                                   secrets#update
 #                                       DELETE /secrets/:id(.:format)                                                                   secrets#destroy
+#                       check_pipelines GET    /pipelines/check(.:format)                                                               pipelines#check
 #                             pipelines GET    /pipelines(.:format)                                                                     pipelines#index
 #                                       POST   /pipelines(.:format)                                                                     pipelines#create
 #                          new_pipeline GET    /pipelines/new(.:format)                                                                 pipelines#new
@@ -18,7 +19,6 @@
 #                                       PUT    /pipelines/:id(.:format)                                                                 pipelines#update
 #                                       DELETE /pipelines/:id(.:format)                                                                 pipelines#destroy
 #                          run_pipeline GET    /pipelines/:id/run(.:format)                                                             pipelines#run
-#                       check_pipelines GET    /pipelines/check(.:format)                                                               pipelines#check
 #                              show_run GET    /pipelines/:id/runs/:run_id(.:format)                                                    runs#show
 #         rails_mandrill_inbound_emails POST   /rails/action_mailbox/mandrill/inbound_emails(.:format)                                  action_mailbox/ingresses/mandrill/inbound_emails#create
 #         rails_postmark_inbound_emails POST   /rails/action_mailbox/postmark/inbound_emails(.:format)                                  action_mailbox/ingresses/postmark/inbound_emails#create

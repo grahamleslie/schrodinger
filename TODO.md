@@ -1,6 +1,6 @@
 # TODO
 
-- Create a Dockerfile for schrodinger, pass docker exec, socket, ssh public key
+- Create a Dockerfile for schrodinger, pass docker exec, socket, ssh public key, call `pipelines/check` on schedule
 - Don't refresh run#show if not in_progress?
 - Cleanup tmp and old runs
 - Output latest commit

@@ -16,6 +16,8 @@ class Pipeline < ApplicationRecord
     validates :name, presence: true
     validates :repo, presence: true, format: { with: /git\@(.*).git/, message: "please enter a valid git repository" }
 
+    scope :with_triggers, -> { where("triggers is not null") }
+
     def latest_run_by_branch(branch)
         runs.where("branch = ?", branch)
         .order(created_at: :desc)

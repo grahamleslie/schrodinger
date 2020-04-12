@@ -2,7 +2,7 @@ class CheckForBuildsJob < ApplicationJob
   queue_as :default
 
   def perform
-    Pipeline.all.each { |pipeline| check_for_new_commit pipeline }
+    Pipeline.with_triggers.each { |pipeline| check_for_new_commit pipeline }
   end
 
   def check_for_new_commit(pipeline)
@@ -16,7 +16,7 @@ class CheckForBuildsJob < ApplicationJob
       object = git.object("#{branch}")
 
       if !latest.present? || latest.commit_sha != object.sha
-        pipeline.runs.create({ num: pipeline.runs.count + 1, branch: branch })
+        pipeline.runs.create({ num: pipeline.runs.count + 1, branch: branch, triggered_by: "scan" })
       end
     }
   end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_11_230818) do
+ActiveRecord::Schema.define(version: 2020_04_11_235828) do
 
   create_table "pipelines", force: :cascade do |t|
     t.string "name"
@@ -32,6 +32,7 @@ ActiveRecord::Schema.define(version: 2020_04_11_230818) do
     t.string "commit_sha"
     t.string "commit_message"
     t.string "branch"
+    t.string "triggered_by"
     t.index ["pipeline_id"], name: "index_runs_on_pipeline_id"
   end
 
