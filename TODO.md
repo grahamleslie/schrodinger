@@ -5,5 +5,4 @@
 - Steam output from build
 - Average build time for pipeline
   - Progress bar
-- Test Dockerfile with a clean clone
 - Add ability to kill stalled runs
