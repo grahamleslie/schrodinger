@@ -31,7 +31,10 @@ class PipelinesController < ApplicationController
   # GET /pipelines/check
   def check
     CheckForBuildsJob.perform_later
-    head :ok
+    respond_to do |format|
+      format.html { redirect_to pipelines_url, notice: 'Started a Pipeline scan.' }
+      format.json { head :ok }
+    end
   end
 
   # POST /pipelines

@@ -12,4 +12,7 @@
 #  updated_at :datetime         not null
 #
 class Secret < ApplicationRecord
+  def hidden_value
+    value.gsub(/./, '*')
+  end
 end

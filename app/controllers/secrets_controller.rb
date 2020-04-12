@@ -9,10 +9,6 @@ class SecretsController < ApplicationController
     @secrets = Secret.all
   end
 
-  # GET /secrets/1
-  # GET /secrets/1.json
-  def show; end
-
   # GET /secrets/new
   def new
     @secret = Secret.new
@@ -28,8 +24,8 @@ class SecretsController < ApplicationController
 
     respond_to do |format|
       if @secret.save
-        format.html { redirect_to @secret, notice: 'Secret was successfully created.' }
-        format.json { render :show, status: :created, location: @secret }
+        format.html { redirect_to secrets_url, notice: 'Secret was successfully created.' }
+        format.json { head :created }
       else
         format.html { render :new }
         format.json { render json: @secret.errors, status: :unprocessable_entity }
@@ -42,8 +38,8 @@ class SecretsController < ApplicationController
   def update
     respond_to do |format|
       if @secret.update(secret_params)
-        format.html { redirect_to @secret, notice: 'Secret was successfully updated.' }
-        format.json { render :show, status: :ok, location: @secret }
+        format.html { redirect_to secrets_url, notice: 'Secret was successfully updated.' }
+        format.json { head :ok }
       else
         format.html { render :edit }
         format.json { render json: @secret.errors, status: :unprocessable_entity }
