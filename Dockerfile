@@ -5,6 +5,7 @@ RUN apt-get update -qq && apt-get install -y nodejs postgresql-client yarn
 
 ENV RAILS_ENV=production
 ENV RAILS_SERVE_STATIC_FILES=true
+ENV GIT_SSH_COMMAND="ssh -i /app/.ssh/\$GIT_IDENTITY_FILE -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
 
 RUN mkdir /app
 WORKDIR /app

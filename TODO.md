@@ -8,3 +8,4 @@
   - Progress bar
 - Test Dockerfile with a clean clone
 - Add ability to kill stalled runs
+- Mount a database for persistence
