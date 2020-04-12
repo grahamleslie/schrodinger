@@ -33,9 +33,7 @@ m = Module.new do
       if update_index && update_index.succ == i && a =~ Gem::Version::ANCHORED_VERSION_PATTERN
         bundler_version = a
       end
-      unless a =~ /\A--bundler(?:[= ](#{Gem::Version::VERSION_PATTERN}))?\z/
-        next
-      end
+      next unless a =~ /\A--bundler(?:[= ](#{Gem::Version::VERSION_PATTERN}))?\z/
 
       bundler_version = Regexp.last_match(1)
       update_index = i
@@ -83,9 +81,7 @@ m = Module.new do
 
     requirement = bundler_gem_version.approximate_recommendation
 
-    unless Gem::Version.new(Gem::VERSION) < Gem::Version.new('2.7.0')
-      return requirement
-    end
+    return requirement unless Gem::Version.new(Gem::VERSION) < Gem::Version.new('2.7.0')
 
     requirement += '.a' if bundler_gem_version.prerelease?
 

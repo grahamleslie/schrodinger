@@ -11,6 +11,9 @@ class RunPipelineJob < ApplicationJob
     @run = Run.find run_id
     @pipeline = @run.pipeline
     @branch = @run.branch
+    @secrets = Secret.by_domain(@pipeline.domain)
+    @build_args = generate_build_args
+    @env_vars = generate_env_vars
 
     begin
       begin_run
@@ -51,13 +54,13 @@ class RunPipelineJob < ApplicationJob
 
   def build_image
     log "Building image #{@run.docker_tag}..."
-    log run_command "docker build -f #{DOCKERFILE} -t #{@run.docker_tag} .", @run.work_directory
+    run_command "docker build #{@build_args} -f #{DOCKERFILE} -t #{@run.docker_tag} .", @run.work_directory
     log 'Built image.'
   end
 
   def run_image
     log "Running image #{@run.docker_tag}..."
-    log run_command "docker run -t #{@run.docker_tag}", @run.work_directory
+    run_command "docker run #{@env_vars} -t #{@run.docker_tag}", @run.work_directory
     log 'Ran image.'
   end
 
@@ -65,6 +68,20 @@ class RunPipelineJob < ApplicationJob
     log 'Finished!'
     @run.completed_at = DateTime.now
     @run.save!
+  end
+
+  def generate_build_args
+    generate_vars_seq '--build-arg'
+  end
+
+  def generate_env_vars
+    generate_vars_seq '-e'
+  end
+
+  def generate_vars_seq flag
+    @secrets.map { |secret|
+      "#{flag} #{secret.name}='#{secret.value}'"
+    }.join(" ")
   end
 
   def fail_run(reason)
@@ -75,13 +92,19 @@ class RunPipelineJob < ApplicationJob
   end
 
   def run_command(command, working_directory)
+    log command
     cmd = Mixlib::ShellOut.new(command, cwd: working_directory)
     cmd.run_command
     cmd.error!
-    cmd.stdout
+    log cmd.stdout
   end
 
   def log(content)
+    @secrets.each { |secret|
+      puts secret.name
+      content = content.gsub secret.value, secret.hidden_value
+    }
+
     output = @run.output || ''
     output += '<br />' unless output == ''
     output += content

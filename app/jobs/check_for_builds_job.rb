@@ -16,15 +16,20 @@ class CheckForBuildsJob < ApplicationJob
       latest = pipeline.latest_run_by_branch(branch)
       object = git.object(branch.to_s)
 
-      if !latest.present? || latest.commit_sha != object.sha
-        pipeline.runs.create({
-          num: pipeline.runs.count + 1,
-          branch: branch,
-          triggered_by: 'scan'
-        })
-      end
+      next unless !latest.present? || latest.commit_sha != object.sha
+
+      pipeline.runs.create({
+                             num: pipeline.runs.count + 1,
+                             branch: branch,
+                             triggered_by: 'scan'
+                           })
     end
+  rescue StandardError => e
+    Rails.logger.warn "Failure during CheckForBuildsJob:\n#{e.message}"
+    Rails.logger.flush
   end
+
+  private
 
   def random_work_directory
     "#{Rails.root}/tmp/check_#{SecureRandom.uuid}"

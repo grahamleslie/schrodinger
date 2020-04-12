@@ -62,7 +62,7 @@ class Run < ApplicationRecord
 
   def status
     if in_progress?
-      "#{branch} in Progress..."
+      "🚧 #{branch} in Progress..."
     elsif completed_at?
       "✔️ Completed #{branch}"
     elsif failed_at?
