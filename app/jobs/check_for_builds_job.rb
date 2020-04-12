@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CheckForBuildsJob < ApplicationJob
   queue_as :default
 
@@ -10,15 +12,18 @@ class CheckForBuildsJob < ApplicationJob
     Dir.mkdir cwd
     git = Git.clone(pipeline.repo, './', path: cwd, bare: true)
     git.fetch
-    pipeline.triggers.split('/n').uniq.each { 
-      |branch|
+    pipeline.branches.each do |branch|
       latest = pipeline.latest_run_by_branch(branch)
-      object = git.object("#{branch}")
+      object = git.object(branch.to_s)
 
       if !latest.present? || latest.commit_sha != object.sha
-        pipeline.runs.create({ num: pipeline.runs.count + 1, branch: branch, triggered_by: "scan" })
+        pipeline.runs.create({
+          num: pipeline.runs.count + 1,
+          branch: branch,
+          triggered_by: 'scan'
+        })
       end
-    }
+    end
   end
 
   def random_work_directory

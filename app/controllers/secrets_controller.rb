@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class SecretsController < ApplicationController
-  before_action :set_secret, only: [:show, :edit, :update, :destroy]
+  before_action :set_secret, only: %i[show edit update destroy]
 
   # GET /secrets
   # GET /secrets.json
@@ -9,8 +11,7 @@ class SecretsController < ApplicationController
 
   # GET /secrets/1
   # GET /secrets/1.json
-  def show
-  end
+  def show; end
 
   # GET /secrets/new
   def new
@@ -18,8 +19,7 @@ class SecretsController < ApplicationController
   end
 
   # GET /secrets/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /secrets
   # POST /secrets.json
@@ -62,13 +62,14 @@ class SecretsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_secret
-      @secret = Secret.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def secret_params
-      params.require(:secret).permit(:name, :value, :domain)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_secret
+    @secret = Secret.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def secret_params
+    params.require(:secret).permit(:name, :value, :domain)
+  end
 end

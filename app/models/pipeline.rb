@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: pipelines
@@ -11,16 +13,28 @@
 #  domain     :string
 #
 class Pipeline < ApplicationRecord
-    has_many :runs, dependent: :destroy, foreign_key: 'pipeline_id'
-    
-    validates :name, presence: true
-    validates :repo, presence: true, format: { with: /git\@(.*).git/, message: "please enter a valid git repository" }
+  has_many :runs, dependent: :destroy, foreign_key: 'pipeline_id'
 
-    scope :with_triggers, -> { where("triggers is not null") }
+  validates :name, presence: true
+  validates :repo, presence: true,
+                   format: {
+                     with: /git\@(.*).git/,
+                     message: 'please enter a valid git repository'
+                   }
 
-    def latest_run_by_branch(branch)
-        runs.where("branch = ?", branch)
+  scope :with_triggers, -> { where('triggers is not null') }
+
+  def latest_run_by_branch(branch)
+    runs.where('branch = ?', branch)
         .order(created_at: :desc)
         .first
+  end
+
+  def branches
+    if triggers.nil?
+      []
+    else
+      triggers.gsub(/(\r)?\n/, '\n').split(/\\n/).uniq
     end
+  end
 end

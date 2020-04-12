@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class PipelinesController < ApplicationController
-  before_action :set_pipeline, only: [:show, :edit, :update, :destroy, :run]
+  before_action :set_pipeline, only: %i[show edit update destroy run]
 
   # GET /pipelines
   # GET /pipelines.json
@@ -9,8 +11,7 @@ class PipelinesController < ApplicationController
 
   # GET /pipelines/1
   # GET /pipelines/1.json
-  def show
-  end
+  def show; end
 
   # GET /pipelines/new
   def new
@@ -18,12 +19,12 @@ class PipelinesController < ApplicationController
   end
 
   # GET /pipelines/1/edit
-  def edit
-  end
+  def edit; end
 
-  # GET /pipelines/1/run
+  # GET /pipelines/1/run?branch=master
   def run
-    @run = @pipeline.runs.create({ num: @pipeline.runs.count + 1, branch: "master", triggered_by: "user"})
+    branch = params[:branch]
+    @run = @pipeline.runs.create({ num: @pipeline.runs.count + 1, branch: branch, triggered_by: 'user' })
     redirect_to "/pipelines/#{@pipeline.id}/runs/#{@run.id}"
   end
 
@@ -74,13 +75,14 @@ class PipelinesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_pipeline
-      @pipeline = Pipeline.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def pipeline_params
-      params.require(:pipeline).permit(:name, :repo, :triggers, :domain)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_pipeline
+    @pipeline = Pipeline.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def pipeline_params
+    params.require(:pipeline).permit(:name, :repo, :triggers, :domain)
+  end
 end

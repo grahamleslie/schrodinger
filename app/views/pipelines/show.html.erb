@@ -1,39 +1,44 @@
 <p id="notice"><%= notice %></p>
-
 <p>
   <strong>Name:</strong>
   <%= @pipeline.name %>
 </p>
-
 <p>
   <strong>Repo:</strong>
   <%= @pipeline.repo %>
 </p>
-
 <p>
   <strong>Triggers:</strong>
-  <%= @pipeline.triggers %>
 </p>
-
+<pre>
+<% @pipeline.branches.each do |branch| %>
+<%= branch %>
+<% end %>
+</pre>
 <p>
   <strong>Domain:</strong>
   <%= @pipeline.domain %>
 </p>
-
 <p>
   <strong>Runs:</strong>
   <br />
   <% @pipeline.runs.order(num: :desc).each do |run| %>
     <%= link_to "/pipelines/#{@pipeline.id}/runs/#{run.id}" do %>
       <strong>#<%= run.id %></strong>
-      <%= run.created_at %> 
+      <%= run.created_at %>
       (<i><%= run.status %></i>)
       <%= run.commit_sha_short %>
     <% end %>
     <br />
   <% end %>
-  </p>
-
-<%= link_to 'Run', run_pipeline_path(@pipeline) %> |
+</p>
+<p>
+  <strong>Run:</strong>
+  <br />
+  <% @pipeline.branches.each do |branch| %>
+    <%= link_to branch, run_pipeline_path(@pipeline, branch: branch) %>
+    <br />
+  <% end %>
+</p>
 <%= link_to 'Edit', edit_pipeline_path(@pipeline) %> |
 <%= link_to 'Back to Pipelines', pipelines_path %>

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: runs
@@ -20,49 +22,51 @@
 #  index_runs_on_pipeline_id  (pipeline_id)
 #
 class Run < ApplicationRecord
-    belongs_to :pipeline, class_name: 'Pipeline'
+  belongs_to :pipeline, class_name: 'Pipeline'
 
-    after_create :run
+  after_create :run
 
-    def run
-        RunPipelineJob.perform_later id
+  def run
+    RunPipelineJob.perform_later id
+  end
+
+  def docker_tag
+    I18n.transliterate("#{pipeline.name}_#{created_at}")
+        .gsub(/[^\w_]/, '_')
+        .tr(' ', '_')
+        .downcase
+  end
+
+  def work_directory
+    "#{Rails.root}/tmp/#{docker_tag}"
+  end
+
+  def commit_sha_short
+    sha = commit_sha
+    return if sha.nil? || sha.length < 7
+
+    sha[0..7]
+  end
+
+  def in_progress?
+    completed_at.nil? && failed_at.nil?
+  end
+
+  def completed?
+    !completed_at.nil?
+  end
+
+  def failed?
+    !failed_at.nil?
+  end
+
+  def status
+    if in_progress?
+      "#{branch} in Progress..."
+    elsif completed_at?
+      "✔️ Completed #{branch}"
+    elsif failed_at?
+      "☠️ Failed #{branch}"
     end
-
-    def docker_tag
-        I18n.transliterate("#{pipeline.name}_#{created_at}").gsub(/[^\w_]/, '_').tr(' ','_').downcase
-    end
-
-    def work_directory
-        "#{Rails.root}/tmp/#{docker_tag}"
-    end
-
-    def commit_sha_short
-        sha = commit_sha
-        if sha.nil? || sha.length < 7
-            return
-        end
-        sha[0..7]
-    end
-
-    def in_progress?
-        completed_at.nil? && failed_at.nil?
-    end
-
-    def completed?
-        !completed_at.nil?
-    end
-
-    def failed?
-        !failed_at.nil?
-    end
-
-    def status
-        if in_progress?
-            "#{branch} in Progress..."
-        elsif completed_at?
-            "✔️ Completed #{branch}"
-        elsif failed_at?
-            "☠️ Failed #{branch}"
-        end
-    end
+  end
 end

@@ -6,5 +6,4 @@
 - Steam output from build
 - Average build time for pipeline
   - Progress bar
-- Manual run other than master
 - Test Dockerfile with a clean clone
