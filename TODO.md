@@ -1,6 +1,5 @@
 # TODO
 
-- Pass ssh public key
 - Don't refresh run#show if not in_progress?
 - Cleanup tmp and old runs
 - Steam output from build
