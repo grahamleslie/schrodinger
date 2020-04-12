@@ -35,5 +35,7 @@
 yarn-debug.log*
 .yarn-integrity
 
+.DS_Store
+
 docker.sh
 docker_db/

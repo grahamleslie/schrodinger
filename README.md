@@ -1,8 +1,14 @@
 # 📦 Schrodinger [beta]
 
+![](https://img.shields.io/docker/pulls/gleslie2008/schrodinger.svg)
+
 **Schrodinger** is a simple CI tool for running your build, test, and deployments in Docker containers.
 
 Run the **Schrodinger** container in your Docker host, create Pipelines to automatically scan your repos for changes, and **Schrodinger** will automatically run them its host's Docker engine.
+
+<center>
+  <img src=".readme/1.png" width="600" /> <img src=".readme/2.png" width="600" />
+</center>
 
 ## Getting Started
 
