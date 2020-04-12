@@ -12,6 +12,8 @@ WORKDIR /app
 COPY Gemfile /app/Gemfile
 RUN bundle install
 COPY . /app
+RUN rm -rf /app/config/credentials.yml.enc
+RUN EDITOR=vim rails credentials:edit
 RUN rails assets:precompile
 
 COPY entrypoint.sh /usr/bin/

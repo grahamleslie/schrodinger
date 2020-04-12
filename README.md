@@ -1,4 +1,4 @@
-# 📦 Schrodinger
+# 📦 Schrodinger [beta]
 
 **Schrodinger** is a simple CI tool for running your build, test, and deployments in Docker containers.
 
@@ -17,24 +17,27 @@ You can also configure a repo for the sample project, [`schrodinger-test`](https
 
 ## Installation
 
-TODO: Replace with DockerHub image once on registry.
+Tested on Ubuntu and MacOS.
 
 ```bash
-docker build -t schrodinger .
 docker run \
+    -d \
     --name schrodinger \
     -p 80:3000 \
     -e RAILS_LOG_TO_STDOUT=true \
     -e GIT_IDENTITY_FILE=id_rsa \
-    -e SCAN_SCHEDULE=5m
-    -v /usr/bin/docker:/usr/bin/docker \
-    -v /usr/lib/x86_64-linux-gnu/libltdl.so.7:/usr/lib/x86_64-linux-gnu/libltdl.so.7 \
+    -e SCAN_SCHEDULE=5m \
+    -v $(which docker):/usr/bin/docker \
     -v /var/run/docker.sock:/var/run/docker.sock \
     -v $HOME/.ssh:/app/.ssh:ro \
     -v schrodinger:/persistent/ \
     --privileged=true \
-    -t schrodinger
+    gleslie2008/schrodinger:latest
 ```
+
+Ubuntu may require an additional dependency mount:
+
+`-v /usr/lib/x86_64-linux-gnu/libltdl.so.7:/usr/lib/x86_64-linux-gnu/libltdl.so.7`
 
 Editable arguments:
 
@@ -86,7 +89,9 @@ Create a secret to inject a configuration value or secret during the build or ru
 
 The `Dockerfile.schrodinger` is an ordinary Dockerfile with `schrodinger` appended so **Schrodinger** knows where to find it. You can easily use a multi-stage pipeline to build, test, and deploy code through **Schrodinger**. [Learn more about multi-stage builds from Docker's documentation](https://docs.docker.com/develop/develop-images/multistage-build/#use-multi-stage-builds).
 
-Example:
+Example `Dockerfile.schrodinger`:
+
+This example will test and build a static website with node, then upload it to an S3 bucket.
 
 ```Dockerfile
 FROM node:10
