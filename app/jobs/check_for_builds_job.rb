@@ -16,7 +16,7 @@ class CheckForBuildsJob < ApplicationJob
       latest = pipeline.latest_run_by_branch(branch)
       object = git.object(branch.to_s)
 
-      next unless !latest.present? || latest.commit_sha != object.sha
+      next unless !latest.present? || latest.commit_sha != object.sha || latest.failed_at.present?
 
       pipeline.runs.create({
                              num: pipeline.runs.count + 1,
