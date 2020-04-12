@@ -1,6 +1,6 @@
 # 📦 Schrodinger [beta]
 
-![](https://img.shields.io/docker/pulls/gleslie2008/schrodinger.svg)
+[![](https://img.shields.io/docker/pulls/gleslie2008/schrodinger.svg)](https://hub.docker.com/r/gleslie2008/schrodinger)
 
 **Schrodinger** is a simple CI tool for running your build, test, and deployments in Docker containers.
 
