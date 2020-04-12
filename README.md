@@ -85,3 +85,20 @@ Create a secret to inject a configuration value or secret during the build or ru
 ### `Dockerfile.schrodinger`
 
 The `Dockerfile.schrodinger` is an ordinary Dockerfile with `schrodinger` appended so **Schrodinger** knows where to find it. You can easily use a multi-stage pipeline to build, test, and deploy code through **Schrodinger**. [Learn more about multi-stage builds from Docker's documentation](https://docs.docker.com/develop/develop-images/multistage-build/#use-multi-stage-builds).
+
+Example:
+
+```Dockerfile
+FROM node:10
+RUN mkdir /app
+WORKDIR /app
+COPY . /app
+RUN npm install
+RUN npm test
+RUN npm run build
+
+FROM amazon/aws-cli:latest
+WORKDIR /app
+COPY --from=0 /app .
+CMD aws s3 cp /app/ s3://bucket/ --recursive
+```
