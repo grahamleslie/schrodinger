@@ -1,6 +1,7 @@
 # == Route Map
 #
 #                                Prefix Verb   URI Pattern                                                                              Controller#Action
+#                                  root GET    /                                                                                        pipelines#index
 #                               secrets GET    /secrets(.:format)                                                                       secrets#index
 #                                       POST   /secrets(.:format)                                                                       secrets#create
 #                            new_secret GET    /secrets/new(.:format)                                                                   secrets#new
@@ -41,6 +42,7 @@
 #                  rails_direct_uploads POST   /rails/active_storage/direct_uploads(.:format)                                           active_storage/direct_uploads#create
 
 Rails.application.routes.draw do
+  root to: redirect('/pipelines')
   resources :secrets
   get '/pipelines/check', to: 'pipelines#check', as: 'check_pipelines'
   resources :pipelines
