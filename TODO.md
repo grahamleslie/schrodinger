@@ -1,7 +1,6 @@
 # TODO
 
-- Don't refresh run#show if not in_progress?
-- Cleanup tmp and old runs
+- Cleanup tmp
 - Steam output from build
 - Average build time for pipeline
   - Progress bar
