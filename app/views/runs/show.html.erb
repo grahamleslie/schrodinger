@@ -35,7 +35,7 @@
 <%= link_to 'Back to Pipeline', pipeline_path(@pipeline) %>
 <script type="text/javascript">
   var refresh = document.getElementById('refresh');
-  refresh.checked = <%= @run.completed_at.nil? %>;
+  refresh.checked = <%= @run.completed_at.nil? && @run.failed_at.nil? %>;
 
   function toggleRefresh() {
     setTimeout(function() {

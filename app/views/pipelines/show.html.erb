@@ -30,7 +30,7 @@
           <td><strong>#<%= run.id %></strong></td>
           <td><%= time_ago_in_words(run.created_at) %> ago</td>
           <td><%= run.status %></td>
-          <td><%= run.commit_sha_short %></td>
+          <td><code><%= run.commit_sha_short %></code></td>
           <td><%= link_to 'Show', "/pipelines/#{@pipeline.id}/runs/#{run.id}", class: 'link-button' %></td>
         </tr>
       <% end %>
