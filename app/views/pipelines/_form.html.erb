@@ -19,12 +19,14 @@
   </div>
   <div class="field">
     <strong><%= form.label :triggers %></strong>
+    <br />
     <small>Write one branch name on each line.  Pipeline will automatically run on the specified branches when they are committed to.</small>
     <br />
     <%= form.text_area :triggers %>
   </div>
   <div class="field">
     <strong><%= form.label :domain %></strong>
+    <br />
     <small>Secrets with the same <code>domain</code> will be automatically injected as build arguments and environment variables.</small>
     <br />
     <%= form.text_field :domain %>
