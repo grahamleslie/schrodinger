@@ -14,9 +14,28 @@
  *= require_self
  */
 
+.container {
+  max-width: 720px;
+  margin: 0 auto;
+  padding-left: 6px;
+  padding-right: 6px;
+  word-wrap: break-word !important;
+}
+
 header {
-  border-bottom: 2px solid gray;
-  color: gray;
+  background-color: #161f27;
+  border-bottom: 2px solid #0a0e11;
+  color: #fff;
   font-size: 18px;
   font-weight: bold;
+  padding-top: 16px;
+  padding-bottom: 16px;
+}
+
+.header > .heading {
+  color: #fff;
+}
+
+.header > a {
+  margin-right: 16px;
 }

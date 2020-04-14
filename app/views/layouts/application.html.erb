@@ -4,15 +4,20 @@
     <title>Schrodinger</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/kognise/water.css@latest/dist/dark.min.css">
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
   <body>
     <header>
-      📦 Schrodinger
+      <div class="header container">
+        <a href="/pipelines" class="heading">📦 Schrodinger</a> <a href="/pipelines">Pipelines</a> <a href="/secrets">Secrets</a>
+      </div>
     </header>
-    <%= yield %>
+    <div class="container">
+      <%= yield %>
+    </div>
   </body>
 </html>
