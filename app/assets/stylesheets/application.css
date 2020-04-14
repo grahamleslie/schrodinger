@@ -14,9 +14,81 @@
  *= require_self
  */
 
+body {
+  background-color: #10181f;
+}
+
+.content {
+  padding-top: 32px;
+  padding-bottom: 32px;
+  background-color: #1d2b36;
+}
+
+.container {
+  max-width: 720px;
+  margin: 0 auto;
+  padding-left: 6px;
+  padding-right: 6px;
+  word-wrap: break-word !important;
+}
+
 header {
-  border-bottom: 2px solid gray;
-  color: gray;
+  border-bottom: 2px solid #0a0e11;
+  color: #fff;
   font-size: 18px;
   font-weight: bold;
+  padding-top: 16px;
+  padding-bottom: 16px;
+}
+
+.header > .heading {
+  color: #fff;
+}
+
+.header > a {
+  margin-right: 16px;
+}
+
+footer {
+  border-top: 2px solid #0a0e11;
+  color: #fff;
+  font-size: 18px;
+  font-weight: bold;
+  padding-top: 16px;
+  padding-bottom: 16px;
+  font-weight: 300;
+}
+
+.footer > a {
+  margin-right: 16px;
+}
+
+a.link-button {
+  padding-left: 30px;
+  padding-right: 30px;
+  color: #fff;
+  background-color: #161f27;
+  font-family: inherit;
+  font-size: inherit;
+  margin-right: 6px;
+  margin-bottom: 6px;
+  padding: 8px;
+  border: none;
+  border-radius: 6px;
+  outline: none;
+  cursor: pointer;
+  text-decoration: none;
+  line-height: 2;
+}
+
+a.link-button:hover {
+  background:#324759
+}
+
+pre {
+  background-color: #161f27;
+  color: #ffbe85;
+  word-wrap: break-word;
+  padding: 4px;
+  overflow: scroll;
 }
