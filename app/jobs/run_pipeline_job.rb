@@ -41,10 +41,8 @@ class RunPipelineJob < ApplicationJob
   def clone_repository
     log "Cloning repository #{@pipeline.repo}..."
     git = Git.clone(@pipeline.repo, './', path: @run.work_directory)
-    log 'Cloned repository.'
     log "Checking out #{@branch}..."
     git.checkout @branch
-    log 'Checked out branch.'
     commit = git.log[0]
     @run.commit_sha = commit.sha
     @run.commit_message = commit.message
@@ -55,13 +53,11 @@ class RunPipelineJob < ApplicationJob
   def build_image
     log "Building image #{@run.docker_tag}..."
     run_command "docker build #{@build_args} -f #{DOCKERFILE} -t #{@run.docker_tag} .", @run.work_directory
-    log 'Built image.'
   end
 
   def run_image
     log "Running image #{@run.docker_tag}..."
     run_command "docker run #{@env_vars} -t #{@run.docker_tag}", @run.work_directory
-    log 'Ran image.'
   end
 
   def complete_run
@@ -106,7 +102,8 @@ class RunPipelineJob < ApplicationJob
     }
 
     output = @run.output || ''
-    output += '<br />' unless output == ''
+    output += '
+' unless output == ''
     output += content
     @run.output = output
     @run.save!

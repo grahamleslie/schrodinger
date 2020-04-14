@@ -1,57 +1,53 @@
 <p id="notice"><%= notice %></p>
-
 <h1><%= @pipeline.name %> #<%= @run.num %></h1>
-
 <p>
-  <strong>Triggered By:</strong>
-  <%= @run.triggered_by %>
+  <strong>Status</strong>: <%= @run.status %>
 </p>
-
 <p>
-  <strong>Status:</strong>
-  <%= @run.status %>
+  <strong>Git Info</strong>: <code><%= @run.branch %></code> <code><%= @run.commit_sha_short %></code> <code><%= @run.commit_message %></code>
 </p>
-
-<p>
-  <strong>Competed At:</strong>
-  <%= @run.completed_at || 'Hasn\'t Completed' %>
-</p>
-
-<p>
-  <strong>Failed At:</strong>
-  <%= @run.failed_at || 'Hasn\'t Failed' %>
-</p>
-
-<p>
-  <strong>Git Branch:</strong>
-  <%= @run.branch %>
-</p>
-
-<p>
-  <strong>Git Commit:</strong>
-  <%= @run.commit_sha || 'Hasn\'t Cloned' %>
-</p>
-<pre>
-<%= @run.commit_message || 'Hasn\'t Cloned'%>
-</pre>
-
+<details id="details" onclick="javascript:toggleRefresh()">
+  <summary>View Details...</summary>
+  <p>
+    <strong>Competed At</strong>: <%= @run.completed_at || 'Hasn\'t Completed' %>
+  </p>
+  <p>
+    <strong>Failed At</strong>: <%= @run.failed_at || 'Hasn\'t Failed' %>
+  </p>
+  <p>
+    <strong>Triggered By</strong>: <%= @run.triggered_by %>
+  </p>
+  <p>
+    <strong>Work Directory</strong>:
+  </p>
+  <code><%= @run.work_directory %></code>
+</details>
 <p>
   <strong>Output:</strong>
 </p>
-<pre>
-<%== @run.output %>
-</pre>
-
 <p>
-  <strong>Work Directory:</strong>
+  <input type="checkbox" name="refresh" id="refresh" checked="">
+  <label for="refresh">Auto-Refresh</label>
 </p>
-
-<pre><%= @run.work_directory %></pre>
-
+<pre>
+<%= @run.output %>
+</pre>
 <%= link_to 'Back to Pipeline', pipeline_path(@pipeline) %>
-
 <script type="text/javascript">
-  setTimeout(function(){
-    window.location.reload(1);
-  }, 5000);
+  var refresh = document.getElementById('refresh');
+  refresh.checked = <%= @run.completed_at.nil? %>;
+
+  function toggleRefresh() {
+    setTimeout(function() {
+      var refresh = document.getElementById('refresh');
+      var details = document.getElementById('details');
+      refresh.checked = details.hasAttribute('open') ? false : !refresh.checked;
+    }, 5);
+  }
+
+  setInterval(function(){
+    if (document.getElementById('refresh').checked) {
+      window.location.reload(1);
+    }
+  }, 1500);
 </script>

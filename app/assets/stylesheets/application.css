@@ -84,3 +84,11 @@ a.link-button {
 a.link-button:hover {
   background:#324759
 }
+
+pre {
+  background-color: #161f27;
+  color: #ffbe85;
+  word-wrap: break-word;
+  padding: 4px;
+  overflow: scroll;
+}
