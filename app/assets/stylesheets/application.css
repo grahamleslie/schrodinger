@@ -62,3 +62,25 @@ footer {
 .footer > a {
   margin-right: 16px;
 }
+
+a.link-button {
+  padding-left: 30px;
+  padding-right: 30px;
+  color: #fff;
+  background-color: #161f27;
+  font-family: inherit;
+  font-size: inherit;
+  margin-right: 6px;
+  margin-bottom: 6px;
+  padding: 8px;
+  border: none;
+  border-radius: 6px;
+  outline: none;
+  cursor: pointer;
+  text-decoration: none;
+  line-height: 2;
+}
+
+a.link-button:hover {
+  background:#324759
+}

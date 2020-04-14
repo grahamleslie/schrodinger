@@ -1,43 +1,47 @@
 <p id="notice"><%= notice %></p>
 
-<h1><%= @pipeline.name %></h1>
+<h1><%= @pipeline.name %> <%= link_to '⚙️', edit_pipeline_path(@pipeline) %></h1>
 
 <p>
-  <strong>Repo:</strong>
-  <%= @pipeline.repo %>
+  <strong>Repo</strong>: <code><%= @pipeline.repo %></code>
 </p>
 <p>
-  <strong>Triggers:</strong>
+  <strong>Runs On Changes To</strong>: <code><%= @pipeline.branches.join(', ') %></code>
 </p>
-<pre>
-<% @pipeline.branches.each do |branch| %>
-<%= branch %>
-<% end %>
-</pre>
+</code>
 <p>
-  <strong>Domain:</strong>
-  <%= @pipeline.domain %>
+  <strong>Domain</strong>: <code><%= @pipeline.domain %></code>
 </p>
 <p>
   <strong>Runs:</strong>
-  <br />
-  <% @pipeline.runs.order(num: :desc).each do |run| %>
-    <%= link_to "/pipelines/#{@pipeline.id}/runs/#{run.id}" do %>
-      <strong>#<%= run.id %></strong>
-      <%= run.created_at %>
-      (<i><%= run.status %></i>)
-      <%= run.commit_sha_short %>
-    <% end %>
-    <br />
-  <% end %>
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Started</th>
+        <th>Status</th>
+        <th>Git SHA</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @pipeline.runs.order(num: :desc).each do |run| %>
+        <tr>
+          <td><strong>#<%= run.id %></strong></td>
+          <td><%= time_ago_in_words(run.created_at) %> ago</td>
+          <td><%= run.status %></td>
+          <td><%= run.commit_sha_short %></td>
+          <td><%= link_to "/pipelines/#{@pipeline.id}/runs/#{run.id}", class: 'link-button' %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 </p>
 <p>
-  <strong>Run:</strong>
-  <br />
+  <strong>Run Now</strong>: 
   <% @pipeline.branches.each do |branch| %>
-    <%= link_to branch, run_pipeline_path(@pipeline, branch: branch) %>
+    <%= link_to branch, run_pipeline_path(@pipeline, branch: branch), class: 'link-button' %>
     <br />
   <% end %>
 </p>
-<%= link_to 'Edit', edit_pipeline_path(@pipeline) %> |
 <%= link_to 'Back to Pipelines', pipelines_path %>
