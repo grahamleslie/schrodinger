@@ -21,7 +21,7 @@
         <th>Started</th>
         <th>Status</th>
         <th>Git SHA</th>
-        <th></th>
+        <th colspan="2"></th>
       </tr>
     </thead>
     <tbody>
@@ -32,6 +32,7 @@
           <td><%= run.status %></td>
           <td><code><%= run.commit_sha_short %></code></td>
           <td><%= link_to 'Show', "/pipelines/#{@pipeline.id}/runs/#{run.id}", class: 'link-button' %></td>
+          <td><%= link_to 'Destroy', "/pipelines/#{@pipeline.id}/runs/#{run.id}", method: :delete, data: { confirm: 'Are you sure?' }, class: 'link-button' %></td>
         </tr>
       <% end %>
     </tbody>
