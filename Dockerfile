@@ -13,9 +13,12 @@ COPY Gemfile /app/Gemfile
 RUN bundle install
 COPY . /app
 RUN rm -rf /app/config/credentials.yml.enc
-RUN gem install byebug -v 11.1.1
-RUN gem install parser -v 2.7.1.0
+RUN gem install byebug -v 11.1.1 # required for credentials:edit
+RUN gem install parser -v 2.7.1.0 # required for credentials:edit
 RUN EDITOR=vim rails credentials:edit
+RUN gem uninstall byebug -v 11.1.1
+RUN gem uninstall byebug -v 2.7.1.0
+RUN bundle install # reinstall those gems if they are actually in the Gemfile
 RUN rails assets:precompile
 
 COPY entrypoint.sh /usr/bin/
