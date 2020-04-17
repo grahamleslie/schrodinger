@@ -24,6 +24,19 @@ class Pipeline < ApplicationRecord
 
   scope :with_triggers, -> { where('triggers is not null') }
 
+  def next_run_num
+    if latest = latest_run
+      latest.num + 1
+    else
+      1
+    end
+  end
+
+  def latest_run
+    runs.order(created_at: :desc)
+    .first
+  end
+
   def latest_run_by_branch(branch)
     runs.where('branch = ?', branch)
         .order(created_at: :desc)
