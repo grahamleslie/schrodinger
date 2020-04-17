@@ -13,6 +13,8 @@ COPY Gemfile /app/Gemfile
 RUN bundle install
 COPY . /app
 RUN rm -rf /app/config/credentials.yml.enc
+RUN gem install byebug -v 11.1.1
+RUN gem install parser -v 2.7.1.0
 RUN EDITOR=vim rails credentials:edit
 RUN rails assets:precompile
 
