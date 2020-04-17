@@ -11,7 +11,7 @@ class RunPipelineJob < ApplicationJob
     @run = Run.find run_id
     @pipeline = @run.pipeline
     @branch = @run.branch
-    @secrets = Secret.by_domain(@pipeline.domain)
+    @secrets = Secret.by_domain(@pipeline.domain, include_globals: true)
     @build_args = generate_build_args
     @env_vars = generate_env_vars
 
