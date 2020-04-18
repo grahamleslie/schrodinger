@@ -6,7 +6,7 @@ class SecretsController < ApplicationController
   # GET /secrets
   # GET /secrets.json
   def index
-    @secrets = Secret.all.order(updated_at: :desc)
+    @secrets = Secret.all.order(domain: :asc)
   end
 
   # GET /secrets/new
