@@ -105,7 +105,7 @@ class RunPipelineJob < ApplicationJob
     output += '
 ' unless output == ''
     output += content
-    @run.output = output
+    @run.output = output.force_encoding("UTF-8")
     @run.save!
   end
 end
