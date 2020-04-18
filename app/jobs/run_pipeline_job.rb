@@ -57,7 +57,7 @@ class RunPipelineJob < ApplicationJob
 
   def run_image
     log "Running image #{@run.docker_tag}..."
-    run_command "docker run #{@env_vars} -t #{@run.docker_tag}", @run.work_directory
+    run_command "docker run --name #{@run.docker_tag} #{@env_vars} -t #{@run.docker_tag}", @run.work_directory
   end
 
   def complete_run
