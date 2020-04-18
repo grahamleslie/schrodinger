@@ -25,7 +25,7 @@ body {
 }
 
 .container {
-  max-width: 720px;
+  max-width: 960px;
   margin: 0 auto;
   padding-left: 6px;
   padding-right: 6px;
@@ -82,7 +82,7 @@ a.link-button {
 }
 
 a.link-button:hover {
-  background:#324759
+  background: #324759;
 }
 
 pre {
