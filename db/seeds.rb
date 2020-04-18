@@ -20,5 +20,13 @@ Pipeline.create!([
                      domain: 'schrodinger-test',
                      created_at: DateTime.now,
                      updated_at: DateTime.now
-                   }
+                   },
+                   {
+                    name: 'Scrhodinger Test 2',
+                    repo: 'git@gitlab.com:gleslie/schrodinger-test.git',
+                    triggers: 'master',
+                    domain: 'schrodinger-test-2',
+                    created_at: DateTime.now,
+                    updated_at: DateTime.now
+                  }
                  ])
