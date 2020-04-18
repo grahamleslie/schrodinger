@@ -27,7 +27,7 @@
     <tbody>
       <% @pipeline.runs.order(num: :desc).each do |run| %>
         <tr>
-          <td><strong>#<%= run.id %></strong></td>
+          <td><strong>#<%= run.num %></strong></td>
           <td><%= time_ago_in_words(run.created_at) %> ago</td>
           <td><%= run.status %></td>
           <td><code><%= run.commit_sha_short %></code></td>
@@ -39,7 +39,7 @@
   </table>
 </p>
 <p>
-  <strong>Run Now</strong>: 
+  <strong>Run Now</strong>:
   <% @pipeline.branches.each do |branch| %>
     <%= link_to branch, run_pipeline_path(@pipeline, branch: branch), class: 'link-button' %>
     <br />
