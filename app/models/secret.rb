@@ -23,6 +23,6 @@ class Secret < ApplicationRecord
   }
 
   def hidden_value
-    value.gsub(/./, '*')
+    '*' * [value.length, 8].min
   end
 end
