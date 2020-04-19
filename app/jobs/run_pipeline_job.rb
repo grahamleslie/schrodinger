@@ -74,10 +74,10 @@ class RunPipelineJob < ApplicationJob
     generate_vars_seq '-e'
   end
 
-  def generate_vars_seq flag
-    @secrets.map { |secret|
+  def generate_vars_seq(flag)
+    @secrets.map do |secret|
       "#{flag} #{secret.name}='#{secret.value}'"
-    }.join(" ")
+    end.join(' ')
   end
 
   def fail_run(reason)
@@ -92,20 +92,22 @@ class RunPipelineJob < ApplicationJob
     cmd = Mixlib::ShellOut.new(command, cwd: working_directory)
     cmd.run_command
     cmd.error!
-    log cmd.stdout
+    log cmd.stdout.force_encoding(Encoding::UTF_8)
   end
 
   def log(content)
-    @secrets.each { |secret|
+    @secrets.each do |secret|
       puts secret.name
       content = content.gsub secret.value, secret.hidden_value
-    }
+    end
 
     output = @run.output || ''
-    output += '
-' unless output == ''
+    unless output == ''
+      output += '
+'
+    end
     output += content
-    @run.output = output.force_encoding("UTF-8")
+    @run.output = output
     @run.save!
   end
 end
