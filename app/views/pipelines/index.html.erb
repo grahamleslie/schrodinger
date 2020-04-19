@@ -16,7 +16,7 @@
     <% @pipelines.each do |pipeline| %>
       <tr>
         <td><%= pipeline.name %></td>
-        <td><%= pipeline.runs.count > 0 ? pipeline.runs[-1].status : 'Not yet run' %> <%= pipeline.runs.count > 0 ? "#{time_ago_in_words(pipeline.runs[0].created_at)} ago" : '' %></td>
+        <td><%= pipeline.runs.count > 0 ? pipeline.latest_run.status : 'Not yet run' %> <%= pipeline.runs.count > 0 ? "#{time_ago_in_words(pipeline.latest_run.created_at)} ago" : '' %></td>
         <td><%= pipeline.runs.count %></td>
         <td><%= link_to 'Show', pipeline, class: 'link-button' %></td>
         <td><%= link_to 'Edit', edit_pipeline_path(pipeline), class: 'link-button' %></td>
