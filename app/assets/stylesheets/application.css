@@ -67,7 +67,7 @@ a.link-button {
   padding-left: 30px;
   padding-right: 30px;
   color: #fff;
-  background-color: #161f27;
+  background-color: #11181f;
   font-family: inherit;
   font-size: inherit;
   margin-right: 6px;
@@ -91,4 +91,8 @@ pre {
   word-wrap: break-word;
   padding: 4px;
   overflow: scroll;
+}
+
+.text-muted {
+  color: rgb(175, 175, 175);
 }
