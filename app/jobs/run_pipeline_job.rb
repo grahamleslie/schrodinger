@@ -52,18 +52,16 @@ class RunPipelineJob < ApplicationJob
 
   def build_image
     log "Building image #{@run.docker_tag}..."
-    run_command "docker build \
-#{@build_args} \
--f #{DOCKERFILE} \
--t #{@run.docker_tag} \
-.", @run.work_directory
+    run_command "docker build \\
+#{@build_args} \\
+-f #{DOCKERFILE} \\
+-t #{@run.docker_tag} .", @run.work_directory
   end
 
   def run_image
     log "Running image #{@run.docker_tag}..."
-    run_command "docker run \
---name #{@run.docker_tag} \
-#{@env_vars} \
+    run_command "docker run --name #{@run.docker_tag} \\
+#{@env_vars} \\
 -t #{@run.docker_tag}", @run.work_directory
   end
 
@@ -84,7 +82,7 @@ class RunPipelineJob < ApplicationJob
   def generate_vars_seq(flag)
     @secrets.map do |secret|
       "#{flag} #{secret.name}='#{secret.value}'"
-    end.join(' \
+    end.join(' \\
 ')
   end
 
