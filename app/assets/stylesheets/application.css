@@ -12,16 +12,24 @@
  *
  *= require_tree .
  *= require_self
- */
+*/
+
+palette {
+  color: #232931;
+  color: #393e46;
+  color: #4ecca3;
+  color: #eeeeee;
+}
 
 body {
-  background-color: #10181f;
+  background-color: #232931;
+  color: #eeeeee;
 }
 
 .content {
   padding-top: 32px;
   padding-bottom: 32px;
-  background-color: #1d2b36;
+  background-color: #393e46;
 }
 
 .container {
@@ -34,7 +42,7 @@ body {
 
 header {
   border-bottom: 2px solid #0a0e11;
-  color: #fff;
+  color: #eeeeee;
   font-size: 18px;
   font-weight: bold;
   padding-top: 16px;
@@ -42,7 +50,12 @@ header {
 }
 
 .header > .heading {
-  color: #fff;
+  color: #eeeeee;
+  text-shadow: 1px 1px 4px #000000;
+}
+
+h1, h2, h3, h4, h5 {
+  text-shadow: 1px 1px 4px #000000;
 }
 
 .header > a {
@@ -51,7 +64,7 @@ header {
 
 footer {
   border-top: 2px solid #0a0e11;
-  color: #fff;
+  color: #eeeeee;
   font-size: 18px;
   font-weight: bold;
   padding-top: 16px;
@@ -66,7 +79,7 @@ footer {
 a.link-button {
   padding-left: 30px;
   padding-right: 30px;
-  color: #fff;
+  color: #eeeeee;
   background-color: #11181f;
   font-family: inherit;
   font-size: inherit;
@@ -85,9 +98,21 @@ a.link-button:hover {
   background: #324759;
 }
 
+a.link-button:active {
+  box-shadow: none;
+}
+
+button, a.link-button {
+  box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.25);
+}
+
+code {
+  color: #4ecca3;
+}
+
 pre {
   background-color: #161f27;
-  color: #ffbe85;
+  color: #4ecca3;
   word-wrap: break-word;
   padding: 4px;
   overflow: scroll;
@@ -95,4 +120,8 @@ pre {
 
 .text-muted {
   color: rgb(175, 175, 175);
+}
+
+tbody tr:nth-child(2n) {
+  background-color: #232931;
 }
