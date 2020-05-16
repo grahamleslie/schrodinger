@@ -22,7 +22,7 @@ class Pipeline < ApplicationRecord
                      message: 'please enter a valid git repository'
                    }
 
-  scope :with_triggers, -> { where('triggers is not null') }
+  scope :with_triggers, -> { where('triggers IS NOT NULL') }
 
   def next_run_num
     if latest = latest_run
@@ -32,9 +32,12 @@ class Pipeline < ApplicationRecord
     end
   end
 
+  def latest_runs(limit)
+    runs.order(created_at: :desc).limit(limit)
+  end
+
   def latest_run
-    runs.order(created_at: :desc)
-    .first
+    latest_runs(1).first
   end
 
   def latest_run_by_branch(branch)

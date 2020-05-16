@@ -33,6 +33,7 @@ docker run \
     -e RAILS_LOG_TO_STDOUT=true \
     -e GIT_IDENTITY_FILE=id_rsa \
     -e SCAN_SCHEDULE=5m \
+    -e CLEANUP_KEEP_LATEST_RUNS=10 \
     -v $(which docker):/usr/bin/docker \
     -v /var/run/docker.sock:/var/run/docker.sock \
     -v $HOME/.ssh:/app/.ssh:ro \
@@ -47,7 +48,8 @@ Ubuntu may require an additional dependency mount:
 
 Editable arguments:
 
-- `-e RAILS_LOG_TO_STDOUT`: if present, **Schrodinger** will log to stdout and be captured in Docker logs.
+- `-e RAILS_LOG_TO_STDOUT`: if present, **Schrodinger** will log to stdout and be captured in Docker logs.  Remove this if you don't want secrets written to the Docker logs (see Caveats).
+- `-e CLEANUP_KEEP_LATEST_RUNS`: if present, deletes any runs older than the latest *N* runs specified.
 - `-e GIT_IDENTITY_FILE`: specify the private key file **Schrodinger** should use for cloning repositories with SSH. It should be in `/app/.ssh/` in the container.
 - `-e SCAN_SCHEDULE`: how often to re-scan repositories for changes. Defaults to `1m`. See [rufus-scheduler](https://github.com/jmettraux/rufus-scheduler) for syntax.
 - `-v $HOME/.ssh:/app/.ssh:ro`: mounts the user's `.ssh` directory in read-only mode. This directory should contain the public and private keys **Schrodinger** will use to clone your repositories.
@@ -64,7 +66,7 @@ Required arguments:
 It should only be run in a trusted environment with trusted users, because:
 
 - It runs in privileged mode and mounts the Docker socket, so it has control of its Docker host.
-- Secrets are stored in plaintext.
+- Secrets are stored in plaintext.  They are also logged by default.
 - Git host key checking is disabled to automatically accept hosts when cloning repositories.
 
 ## Development
