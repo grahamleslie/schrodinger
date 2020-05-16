@@ -17,6 +17,7 @@ class RunPipelineJob < ApplicationJob
 
     begin
       begin_run
+      cleanup_old_runs unless ENV['CLEANUP_KEEP_LATEST_RUNS'].nil?
       create_work_directory
       clone_repository
       build_image
@@ -31,6 +32,15 @@ class RunPipelineJob < ApplicationJob
 
   def begin_run
     log 'Getting started...'
+  end
+
+  def cleanup_old_runs
+    runs_to_keep = Integer ENV['CLEANUP_KEEP_LATEST_RUNS']
+    if @pipeline.runs.count > runs_to_keep
+      log "Cleaning up old runs (only keeping the #{runs_to_keep} latest)..."
+      latest = @pipeline.latest_runs(runs_to_keep)
+      Run.where("id NOT IN (#{latest.pluck(:id).join(', ')})").destroy_all
+    end
   end
 
   def create_work_directory
