@@ -21,6 +21,10 @@ There's a couple steps to get started:
 
 You can also configure a repo for the sample project, [`schrodinger-test`](https://gitlab.com/gleslie/schrodinger-test). Use the SSH repo, and a `master` trigger.
 
+## Documentation
+
+Documentation is available in the [Schrodinger Wiki](https://github.com/grahamleslie/schrodinger/wiki).
+
 ## Installation
 
 Tested on Ubuntu and MacOS.
@@ -75,41 +79,3 @@ It should only be run in a trusted environment with trusted users, because:
 - `rails db:migrate` to run all migrations.
 - `rails db:seed` to seed the database.
 - `./start.sh` to start the local development server (see file for other tasks run).
-
-## Documentation
-
-### Pipelines
-
-Create a Pipeline to monitor a set of branches on a repository. If a new commit exists for a monitored branch, the repository will be cloned, and the image defined by the `Dockerfile.schrodinger` will be built and run.
-
-- Triggers: what branches to monitor for changes.
-- Domain: any Secrets with a matching domain will automatically inject into the Pipeline's Docker containers as build arguments and environment variables.
-
-### Secrets
-
-Create a secret to inject a configuration value or secret during the build or run of your Docker image. Secrets are automatically hidden in Pipeline logs.
-
-- Domain: any Pipelines with a matching domain will automatically inject the secret to its Docker container as a build argument and environment variable.
-
-### `Dockerfile.schrodinger`
-
-The `Dockerfile.schrodinger` is an ordinary Dockerfile with `schrodinger` appended so **Schrodinger** knows where to find it. You can easily use a multi-stage pipeline to build, test, and deploy code through **Schrodinger**. [Learn more about multi-stage builds from Docker's documentation](https://docs.docker.com/develop/develop-images/multistage-build/#use-multi-stage-builds).
-
-Example `Dockerfile.schrodinger`:
-
-This example will test and build a static website with node, then upload it to an S3 bucket.
-
-```Dockerfile
-FROM node:10
-RUN mkdir /app
-WORKDIR /app
-COPY . /app
-RUN npm install
-RUN npm test
-RUN npm run build
-
-FROM amazon/aws-cli:latest
-WORKDIR /app
-COPY --from=0 /app .
-CMD aws s3 cp /app/ s3://bucket/ --recursive
-```
