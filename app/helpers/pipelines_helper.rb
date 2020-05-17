@@ -3,14 +3,6 @@
 module PipelinesHelper
   class PipelineConfiguration
     attr_reader :name, :run, :run_args, :remove_existing
-    #
-    # Example Configuration:
-    #
-    # name=container_name (default: generated)
-    # run=true (default: true)
-    # run_args=-d -p 80:80 -v /mnt/md0:/data (default: empty)
-    # remove_existing=true (default: false)
-    #
 
     def initialize(path:, name:, run: true, run_args: '', remove_existing: false)
       @content = File.read(path)
