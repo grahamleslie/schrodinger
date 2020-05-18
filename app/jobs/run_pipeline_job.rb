@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'mixlib/shellout'
+require_relative '../helpers/pipelines_helper'
 
 class RunPipelineJob < ApplicationJob
   queue_as :default
@@ -14,14 +15,17 @@ class RunPipelineJob < ApplicationJob
     @secrets = Secret.by_domain(@pipeline.domain, include_globals: true)
     @build_args = generate_build_args
     @env_vars = generate_env_vars
+    @config = nil
 
     begin
       begin_run
       cleanup_old_runs unless ENV['CLEANUP_KEEP_LATEST_RUNS'].nil?
       create_work_directory
       clone_repository
+      read_config
       build_image
-      run_image
+      remove_container if @config.remove_existing
+      run_container if @config.run
       complete_run
     rescue StandardError => e
       fail_run e.message
@@ -60,6 +64,16 @@ class RunPipelineJob < ApplicationJob
     log "Commit is #{commit.sha} (#{commit.message}) by #{commit.author.email} at #{commit.date.strftime('%m-%d-%y')}"
   end
 
+  def read_config
+    log "Reading configuration..."
+    @config = PipelinesHelper::PipelineConfiguration.new(
+      path: "#{@run.work_directory}/#{DOCKERFILE}",
+      name: @run.docker_tag
+    )
+    log "Configuration:"
+    log @config.to_s
+  end
+
   def build_image
     log "Building image #{@run.docker_tag}..."
     run_command "docker build \\
@@ -68,10 +82,20 @@ class RunPipelineJob < ApplicationJob
 -t #{@run.docker_tag} .", @run.work_directory
   end
 
-  def run_image
-    log "Running image #{@run.docker_tag}..."
-    run_command "docker run --name #{@run.docker_tag} \\
+  def remove_container
+    name = @config.name || @run.docker_tag
+    log "Stopping image #{name}..."
+    run_command "docker stop #{name}", @run.work_directory, fail_on_error: false
+    log "Removing image #{name}..."
+    run_command "docker rm #{name}", @run.work_directory, fail_on_error: false
+  end
+
+  def run_container
+    name = @config.name
+    log "Running image #{name}..."
+    run_command "docker run --name #{name} \\
 #{@env_vars} \\
+#{@config.run_args} \\
 -t #{@run.docker_tag}", @run.work_directory
   end
 
@@ -103,12 +127,18 @@ class RunPipelineJob < ApplicationJob
     @run.save!
   end
 
-  def run_command(command, working_directory)
+  def run_command(command, working_directory, fail_on_error: true)
     log command
     cmd = Mixlib::ShellOut.new(command, cwd: working_directory)
     cmd.run_command
-    cmd.error!
-    log cmd.stdout.force_encoding(Encoding::UTF_8)
+    if cmd.error?
+      log cmd.stdout.force_encoding(Encoding::UTF_8)
+      if fail_on_error
+        cmd.error!
+      else
+        log cmd.stderr.force_encoding(Encoding::UTF_8)
+      end
+    end
   end
 
   def log(content)
