@@ -1,7 +1,7 @@
 <p id="notice"><%= notice %></p>
 
 <h1><%= @pipeline.name %> <%= link_to '⚙️', edit_pipeline_path(@pipeline) %></h1>
-<h3><code><%= @pipeline.domain %></code></h3>
+Last Month's Activity: <code><%= @pipeline.pretty_activity(days: 28) %></code>
 <p>
   <table>
     <thead>
@@ -31,5 +31,6 @@
   <% @pipeline.branches.each do |branch| %>
     <a href="<%= run_pipeline_path(@pipeline, branch: branch) %>" class="link-button"><i class="fa fa-play"></i> <%= branch %></a>
   <% end %>
+  Domain: <code><%= @pipeline.domain %></code>
 </p>
 <%= link_to 'Back to Pipelines', pipelines_path %>

@@ -13,6 +13,9 @@
     <strong>Failed At</strong>: <%= @run.failed_at || 'Hasn\'t Failed' %>
   </p>
   <p>
+    <strong>Duration</strong>: <%= @run.pretty_duration || 'Hasn\'t Completed' %>
+  </p>
+  <p>
     <strong>Triggered By</strong>: <%= @run.triggered_by %>
   </p>
   <p>
