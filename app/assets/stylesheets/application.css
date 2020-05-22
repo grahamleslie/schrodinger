@@ -41,7 +41,6 @@ body {
 }
 
 header {
-  border-bottom: 2px solid #0a0e11;
   color: #eeeeee;
   font-size: 18px;
   font-weight: bold;
@@ -51,11 +50,12 @@ header {
 
 .header > .heading {
   color: #eeeeee;
-  text-shadow: 1px 1px 4px #000000;
-}
-
-h1, h2, h3, h4, h5 {
-  text-shadow: 1px 1px 4px #000000;
+  text-transform: uppercase;
+  border-bottom: 17px solid #11181f;
+  border-top: 17px solid #11181f;
+  background-color: #11181f;
+  padding-left: 12px;
+  padding-right: 12px;
 }
 
 .header > a {
@@ -63,7 +63,6 @@ h1, h2, h3, h4, h5 {
 }
 
 footer {
-  border-top: 2px solid #0a0e11;
   color: #eeeeee;
   font-size: 18px;
   font-weight: bold;
@@ -99,11 +98,22 @@ a.link-button:hover {
 }
 
 a.link-button:active {
-  box-shadow: none;
 }
 
 button, a.link-button {
-  box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.25);
+}
+
+a {
+  color: #4ecca3;
+}
+
+a:hover {
+  color: #eeeeee;
+  text-decoration: none;
+}
+
+h1, h2, h3, h4, h5 {
+  letter-spacing: 0.03em;
 }
 
 code {

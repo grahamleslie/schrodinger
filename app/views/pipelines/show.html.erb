@@ -1,10 +1,6 @@
 <p id="notice"><%= notice %></p>
 
 <h1><%= @pipeline.name %> <%= link_to '⚙️', edit_pipeline_path(@pipeline) %></h1>
-
-<p>
-  <strong>Repo</strong>: <code><%= @pipeline.repo %></code>
-</p>
 <p>
   <strong>Runs On Changes To</strong>: <code><%= @pipeline.branches.join(', ') %></code>
 </p>
@@ -42,7 +38,6 @@
   <strong>Run Now</strong>:
   <% @pipeline.branches.each do |branch| %>
     <%= link_to branch, run_pipeline_path(@pipeline, branch: branch), class: 'link-button' %>
-    <br />
   <% end %>
 </p>
 <%= link_to 'Back to Pipelines', pipelines_path %>
