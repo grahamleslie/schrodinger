@@ -1,19 +1,8 @@
 <p id="notice"><%= notice %></p>
 
 <h1><%= @pipeline.name %> <%= link_to '⚙️', edit_pipeline_path(@pipeline) %></h1>
-
+Last Month's Activity: <code><%= @pipeline.pretty_activity(days: 28) %></code>
 <p>
-  <strong>Repo</strong>: <code><%= @pipeline.repo %></code>
-</p>
-<p>
-  <strong>Runs On Changes To</strong>: <code><%= @pipeline.branches.join(', ') %></code>
-</p>
-</code>
-<p>
-  <strong>Domain</strong>: <code><%= @pipeline.domain %></code>
-</p>
-<p>
-  <strong>Runs:</strong>
   <table>
     <thead>
       <tr>
@@ -27,7 +16,7 @@
     <tbody>
       <% @pipeline.runs.order(num: :desc).each do |run| %>
         <tr>
-          <td><strong>#<%= run.num %></strong></td>
+          <td><strong><%= run.num %></strong></td>
           <td><%= time_ago_in_words(run.created_at) %> ago</td>
           <td><%= run.status %></td>
           <td><code><%= run.commit_sha_short %></code></td>
@@ -39,10 +28,9 @@
   </table>
 </p>
 <p>
-  <strong>Run Now</strong>:
   <% @pipeline.branches.each do |branch| %>
-    <%= link_to branch, run_pipeline_path(@pipeline, branch: branch), class: 'link-button' %>
-    <br />
+    <a href="<%= run_pipeline_path(@pipeline, branch: branch) %>" class="link-button"><i class="fa fa-play"></i> <%= branch %></a>
   <% end %>
+  Domain: <code><%= @pipeline.domain %></code>
 </p>
 <%= link_to 'Back to Pipelines', pipelines_path %>

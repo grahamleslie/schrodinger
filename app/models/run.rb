@@ -52,6 +52,10 @@ class Run < ApplicationRecord
     completed_at.nil? && failed_at.nil?
   end
 
+  def finished?
+    !in_progress?
+  end
+
   def completed?
     !completed_at.nil?
   end
@@ -68,5 +72,21 @@ class Run < ApplicationRecord
     elsif failed_at?
       "☠️ Failed #{branch}"
     end
+  end
+
+  def duration_seconds
+    finished_at = completed_at || failed_at
+    
+    finished? ? ((finished_at - created_at)).to_i : nil
+  end
+
+  def pretty_duration
+    if duration_seconds.nil? 
+      ""
+    end
+    
+    minutes = (duration_seconds / 60).floor
+    seconds = (duration_seconds % 60).round
+    "#{minutes}m #{seconds}s"
   end
 end

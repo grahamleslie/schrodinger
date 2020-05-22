@@ -1,10 +1,8 @@
 <p id="notice"><%= notice %></p>
 <h1><%= @pipeline.name %> <span class="text-muted">#<%= @run.num %></span></h1>
+<h3><%= @run.status %></h3>
 <p>
-  <strong>Status</strong>: <%= @run.status %>
-</p>
-<p>
-  <strong>Git Info</strong>: <code><%= @run.branch %></code> <code><%= @run.commit_sha_short %></code> <code><%= @run.commit_message %></code>
+  Triggered by <code><%= @run.commit_sha_short %></code> on <code><%= @run.branch %></code> to <code><%= @run.commit_message %></code>.
 </p>
 <details id="details" onclick="javascript:toggleRefresh()">
   <summary>View Details...</summary>
@@ -15,6 +13,9 @@
     <strong>Failed At</strong>: <%= @run.failed_at || 'Hasn\'t Failed' %>
   </p>
   <p>
+    <strong>Duration</strong>: <%= @run.pretty_duration || 'Hasn\'t Completed' %>
+  </p>
+  <p>
     <strong>Triggered By</strong>: <%= @run.triggered_by %>
   </p>
   <p>
@@ -22,9 +23,6 @@
   </p>
   <code><%= @run.work_directory %></code>
 </details>
-<p>
-  <strong>Output:</strong>
-</p>
 <p>
   <input type="checkbox" name="refresh" id="refresh" checked="">
   <label for="refresh">Auto-Refresh</label>
@@ -35,6 +33,10 @@
 <%= link_to 'Back to Pipeline', pipeline_path(@pipeline) %>
 <script type="text/javascript">
   var refresh = document.getElementById('refresh');
+  if (<%= !@run.completed_at.nil? || !@run.failed_at.nil? %>) {
+    refresh.disabled = true;
+  }
+
   refresh.checked = <%= @run.completed_at.nil? && @run.failed_at.nil? %>;
 
   function toggleRefresh() {

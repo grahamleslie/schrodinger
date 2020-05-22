@@ -7,7 +7,7 @@
 Run the **Schrodinger** container in your Docker host, create Pipelines to automatically scan your repos for changes, and **Schrodinger** will automatically run them its host's Docker engine.
 
 <center>
-  <img src=".readme/1.png" width="600" /> <img src=".readme/2.png" width="600" />
+  <img src=".readme/1.png" width="600" /> <img src=".readme/2.png" width="600" /> <img src=".readme/3.png" width="600" />
 </center>
 
 ## Getting Started

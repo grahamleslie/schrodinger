@@ -25,4 +25,8 @@ class Secret < ApplicationRecord
   def hidden_value
     '*' * [value.length, 8].min
   end
+
+  def num_pipelines_using
+    domain == 'global' ? Pipeline.count : Pipeline.where('domain = ?', domain).count
+  end
 end

@@ -7,7 +7,8 @@
     <tr>
       <th>Name</th>
       <th>Latest</th>
-      <th>Runs</th>
+      <th>Activity</th>
+      <th>Duration</th>
       <th colspan="4"></th>
     </tr>
   </thead>
@@ -17,7 +18,8 @@
       <tr>
         <td><b><%= pipeline.name %></b></td>
         <td><%= pipeline.runs.count > 0 ? pipeline.latest_run.status : 'Not yet run' %> <%= pipeline.runs.count > 0 ? "#{time_ago_in_words(pipeline.latest_run.created_at)} ago" : '' %></td>
-        <td><%= pipeline.runs.count %></td>
+        <td><code><%= pipeline.pretty_activity %></code></td>
+        <td><%= pipeline.pretty_average_duration %></td>
         <td><%= link_to 'Show', pipeline, class: 'link-button' %></td>
         <td><%= link_to 'Edit', edit_pipeline_path(pipeline), class: 'link-button' %></td>
         <td><%= link_to 'Destroy', pipeline, method: :delete, data: { confirm: 'Are you sure?' }, class: 'link-button' %></td>
