@@ -43,11 +43,11 @@ class Pipeline < ApplicationRecord
   def pretty_average_duration
     if average_duration_seconds.nil? 
       ""
+    else
+      minutes = (average_duration_seconds / 60).floor
+      seconds = (average_duration_seconds % 60).round
+      "#{minutes}m #{seconds}s"
     end
-    
-    minutes = (average_duration_seconds / 60).floor
-    seconds = (average_duration_seconds % 60).round
-    "#{minutes}m #{seconds}s"
   end
 
   def pretty_activity(days: 7)
