@@ -83,10 +83,10 @@ class Run < ApplicationRecord
   def pretty_duration
     if duration_seconds.nil? 
       ""
+    else
+      minutes = (duration_seconds / 60).floor
+      seconds = (duration_seconds % 60).round
+      "#{minutes}m #{seconds}s"
     end
-    
-    minutes = (duration_seconds / 60).floor
-    seconds = (duration_seconds % 60).round
-    "#{minutes}m #{seconds}s"
   end
 end
