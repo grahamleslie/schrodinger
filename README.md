@@ -1,4 +1,4 @@
-# 📦 Schrodinger [beta]
+# 📦 Schrodinger
 
 [![](https://img.shields.io/docker/pulls/grahamleslie/schrodinger.svg)](https://hub.docker.com/r/grahamleslie/schrodinger)
 
