@@ -1,6 +1,6 @@
 # 📦 Schrodinger [beta]
 
-[![](https://img.shields.io/docker/pulls/gleslie2008/schrodinger.svg)](https://hub.docker.com/r/gleslie2008/schrodinger)
+[![](https://img.shields.io/docker/pulls/grahamleslie/schrodinger.svg)](https://hub.docker.com/r/grahamleslie/schrodinger)
 
 **Schrodinger** is a simple CI tool for running your build, test, and deployments in Docker containers.
 
@@ -43,7 +43,8 @@ docker run \
     -v $HOME/.ssh:/app/.ssh:ro \
     -v schrodinger:/persistent/ \
     --privileged=true \
-    gleslie2008/schrodinger:latest
+    --restart=always \
+    grahamleslie/schrodinger:latest
 ```
 
 Ubuntu may require an additional dependency mount:
