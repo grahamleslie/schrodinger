@@ -68,7 +68,7 @@ class Run < ApplicationRecord
     if in_progress?
       "🚧 #{branch} in Progress..."
     elsif completed_at?
-      "✔️ Completed #{branch}"
+      "✅ Completed #{branch}"
     elsif failed_at?
       "☠️ Failed #{branch}"
     end
