@@ -37,6 +37,9 @@ class Pipeline < ApplicationRecord
     durations = runs.limit(64).
       map(&:duration_seconds).
       compact
+
+    return 0 if durations.empty?
+
     durations.inject{ |sum, el| sum + el }.to_f / durations.size
   end
 
@@ -60,7 +63,7 @@ class Pipeline < ApplicationRecord
   end
 
   def next_run_num
-    if latest = latest_run
+    if latest = runs.order(num: :desc).limit(1).first
       latest.num + 1
     else
       1
