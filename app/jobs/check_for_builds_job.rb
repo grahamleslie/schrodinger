@@ -19,7 +19,7 @@ class CheckForBuildsJob < ApplicationJob
       next unless !latest.present? || latest.commit_sha != object.sha || latest.failed_at.present?
 
       pipeline.runs.create({
-                             num: pipeline.runs.count + 1,
+                             num: pipeline.next_run_num,
                              branch: branch,
                              triggered_by: 'scan'
                            })
