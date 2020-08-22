@@ -43,7 +43,7 @@ class RunPipelineJob < ApplicationJob
     if @pipeline.runs.count > runs_to_keep
       log "Cleaning up old runs (only keeping the #{runs_to_keep} latest)..."
       latest = @pipeline.latest_runs(runs_to_keep)
-      Run.where("id NOT IN (#{latest.pluck(:id).join(', ')})").destroy_all
+      @pipeline.runs.where("id NOT IN (#{latest.pluck(:id).join(', ')})").destroy_all
     end
   end
 
@@ -65,12 +65,12 @@ class RunPipelineJob < ApplicationJob
   end
 
   def read_config
-    log "Reading configuration..."
+    log 'Reading configuration...'
     @config = PipelinesHelper::PipelineConfiguration.new(
       path: "#{@run.work_directory}/#{DOCKERFILE}",
       name: @run.docker_tag
     )
-    log "Configuration:"
+    log 'Configuration:'
     log @config.to_s
   end
 
