@@ -59,6 +59,7 @@ Rails.application.routes.draw do
   resources :pipelines
   get '/pipelines/:id/run', to: 'pipelines#run', as: 'run_pipeline'
   get '/pipelines/:id/runs/:run_id', to: 'runs#show', as: 'show_run'
+  get '/pipelines/:id/runs/:run_id/output', to: 'runs#output', as: 'show_run_output'
   resources :runs
   delete '/pipelines/:id/runs/:run_id', to: 'runs#destroy', as: 'destroy_run'
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html

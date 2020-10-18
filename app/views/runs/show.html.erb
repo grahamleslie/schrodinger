@@ -27,7 +27,7 @@
   <input type="checkbox" name="refresh" id="refresh" checked="">
   <label for="refresh">Auto-Refresh</label>
 </p>
-<pre>
+<pre id="output">
 <%= @run.output %>
 </pre>
 <%= link_to 'Back to Pipeline', pipeline_path(@pipeline) %>
@@ -49,7 +49,18 @@
 
   setInterval(function(){
     if (document.getElementById('refresh').checked) {
-      window.location.reload(1);
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+          response = JSON.parse(this.responseText);
+          document.getElementById("output").innerHTML = response.output;
+          if (!response.running) {
+            document.getElementById('refresh').checked = false;
+          }
+        }
+      };
+      xhttp.open('GET', `/pipelines/${<%= @pipeline.id %>}/runs/${<%= @run.id %>}/output`, true);
+      xhttp.send();
     }
   }, 1500);
 </script>
