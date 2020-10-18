@@ -8,6 +8,11 @@ class RunsController < ApplicationController
     @run = Run.find(params[:run_id])
   end
 
+  def output
+    run = Run.find(params[:run_id])
+    render json: { output: run.output, running: run.in_progress? }
+  end
+
   # DELETE /pipelines/1/runs/1
   # DELETE /pipelines/1/runs/1.json
   def destroy
