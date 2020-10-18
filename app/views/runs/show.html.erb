@@ -37,7 +37,7 @@
     refresh.disabled = true;
   }
 
-  refresh.checked = <%= @run.completed_at.nil? && @run.failed_at.nil? %>;
+  refresh.checked = <%= @run.in_progress? %>;
 
   function toggleRefresh() {
     setTimeout(function() {

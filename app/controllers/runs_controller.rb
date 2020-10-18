@@ -10,7 +10,7 @@ class RunsController < ApplicationController
 
   def output
     run = Run.find(params[:run_id])
-    render json: { output: run.output, running: run.completed_at.nil? && run.failed_at.nil? }
+    render json: { output: run.output, running: run.in_progress? }
   end
 
   # DELETE /pipelines/1/runs/1

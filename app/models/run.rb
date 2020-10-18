@@ -76,12 +76,12 @@ class Run < ApplicationRecord
 
   def duration_seconds
     finished_at = completed_at || failed_at
-    
+
     finished? ? ((finished_at - created_at)).to_i : nil
   end
 
   def pretty_duration
-    if duration_seconds.nil? 
+    if duration_seconds.nil?
       ""
     else
       minutes = (duration_seconds / 60).floor
