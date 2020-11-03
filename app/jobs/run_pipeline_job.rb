@@ -120,12 +120,10 @@ class RunPipelineJob < ApplicationJob
   end
 
   def generate_vars_seq(flag)
-    # rubocop:disable Layout/HeredocIndentation
     separator = <<~BASH
       \\
-    ,
+
     BASH
-    # rubocop:enable Layout/HeredocIndentation
     @secrets.map do |secret|
       "#{flag} #{secret.name}='#{secret.value}'"
     end.join(separator)
