@@ -19,7 +19,7 @@ class Secret < ApplicationRecord
   validates :domain, presence: true
 
   scope :by_domain, ->(domain, include_globals: false) {
-    where(include_globals ? "domain = ? or domain = 'global'" : "domain = ?", domain)
+    where(include_globals ? "domain = ? or domain = 'global'" : 'domain = ?', domain)
   }
 
   def hidden_value

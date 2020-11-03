@@ -3,3 +3,9 @@ Style/Documentation:
 
 Layout/LineLength:
   Max: 99
+
+Layout/MultilineMethodCallIndentation:
+  Enabled: false
+
+Style/Lambda:
+  Enabled: false

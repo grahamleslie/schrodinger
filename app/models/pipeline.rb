@@ -24,28 +24,19 @@ class Pipeline < ApplicationRecord
 
   scope :with_triggers, -> { where('triggers IS NOT NULL') }
 
-  def self.pretty_activity(days: 14)
-    runs_per_day = (0..days).to_a.reverse.
-      map { |num| 
-        day = DateTime.now.days_ago(num)
-        Run.where('created_at < ? AND created_at > ?', day.end_of_day, day.beginning_of_day).count(:id)
-      }
-    Sparkr.sparkline(runs_per_day)
-  end
-
-  def average_duration_seconds 
-    durations = runs.limit(64).
-      map(&:duration_seconds).
-      compact
+  def average_duration_seconds
+    durations = runs.limit(64)
+      .map(&:duration_seconds)
+      .compact
 
     return 0 if durations.empty?
 
-    durations.inject{ |sum, el| sum + el }.to_f / durations.size
+    durations.inject { |sum, el| sum + el }.to_f / durations.size
   end
 
   def pretty_average_duration
-    if average_duration_seconds.nil? 
-      ""
+    if average_duration_seconds.nil?
+      ''
     else
       minutes = (average_duration_seconds / 60).floor
       seconds = (average_duration_seconds % 60).round
@@ -55,15 +46,17 @@ class Pipeline < ApplicationRecord
 
   def pretty_activity(days: 7)
     runs_per_day = (0..days).to_a.reverse.
-      map { |num| 
+      map do |num|
         day = DateTime.now.days_ago(num)
-        runs.where('created_at < ? AND created_at > ?', day.end_of_day, day.beginning_of_day).count(:id)
-      }
+        runs.where(
+          'created_at < ? AND created_at > ?', day.end_of_day, day.beginning_of_day
+        ).count(:id)
+      end
     Sparkr.sparkline(runs_per_day)
   end
 
   def next_run_num
-    if latest = runs.order(num: :desc).limit(1).first
+    if (latest = runs.order(num: :desc).limit(1).first)
       latest.num + 1
     else
       1

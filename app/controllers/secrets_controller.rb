@@ -7,6 +7,8 @@ class SecretsController < ApplicationController
   # GET /secrets.json
   def index
     @secrets = Secret.all.order(domain: :asc)
+    format.html { render :index }
+    format.json { render json: @secrets, status: :ok }
   end
 
   # GET /secrets/new
@@ -59,12 +61,10 @@ class SecretsController < ApplicationController
 
   private
 
-  # Use callbacks to share common setup or constraints between actions.
   def set_secret
     @secret = Secret.find(params[:id])
   end
 
-  # Only allow a list of trusted parameters through.
   def secret_params
     params.require(:secret).permit(:name, :value, :domain)
   end
