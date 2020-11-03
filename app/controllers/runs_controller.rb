@@ -6,11 +6,10 @@ class RunsController < ApplicationController
   def show
     @pipeline = Pipeline.find(params[:id])
     @run = Run.find(params[:run_id])
-  end
-
-  def output
-    run = Run.find(params[:run_id])
-    render json: { output: run.output, running: run.in_progress? }
+    respond_to do |format|
+      format.html { render :show }
+      format.json { render json: @run.to_json, status: :ok }
+    end
   end
 
   # DELETE /pipelines/1/runs/1

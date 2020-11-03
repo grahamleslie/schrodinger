@@ -47,20 +47,41 @@
     }, 5);
   }
 
-  setInterval(function(){
-    if (document.getElementById('refresh').checked) {
-      var xhttp = new XMLHttpRequest();
-      xhttp.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-          response = JSON.parse(this.responseText);
-          document.getElementById("output").innerHTML = response.output;
-          if (!response.running) {
-            document.getElementById('refresh').checked = false;
-          }
-        }
-      };
-      xhttp.open('GET', `/pipelines/${<%= @pipeline.id %>}/runs/${<%= @run.id %>}/output`, true);
-      xhttp.send();
+  // Attribution: https://stackoverflow.com/a/48234990
+  var reloadWithTurbolinks = (function () {
+    var scrollPosition;
+    var focusId;
+
+    function reload() {
+      Turbolinks.visit(window.location.toString(), {action: 'replace'})
+    }
+
+    document.addEventListener('turbolinks:before-render', function () {
+      scrollPosition = [window.scrollX, window.scrollY];
+      focusId = document.activeElement.id;
+    });
+    document.addEventListener('turbolinks:load', function () {
+      if (scrollPosition) {
+        window.scrollTo.apply(window, scrollPosition);
+        scrollPosition = null
+      }
+      if (focusId) {
+        document.getElementById(focusId).focus();
+        focusId = null;
+      }
+    });
+    return reload;
+  })();
+
+  var interval = setInterval(function(){
+    var refreshCheckbox = document.getElementById('refresh');
+    if (!refreshCheckbox) {
+      clearInterval(interval);
+      return;
+    }
+
+    if (refreshCheckbox.checked) {
+      reloadWithTurbolinks();
     }
   }, 1500);
 </script>
