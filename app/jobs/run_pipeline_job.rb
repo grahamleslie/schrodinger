@@ -40,11 +40,11 @@ class RunPipelineJob < ApplicationJob
 
   def cleanup_old_runs
     runs_to_keep = Integer ENV['CLEANUP_KEEP_LATEST_RUNS']
-    if @pipeline.runs.count > runs_to_keep
-      log "Cleaning up old runs (only keeping the #{runs_to_keep} latest)..."
-      latest = @pipeline.latest_runs(runs_to_keep)
-      @pipeline.runs.where("id NOT IN (#{latest.pluck(:id).join(', ')})").destroy_all
-    end
+    return if @pipeline.runs.count <= runs_to_keep
+
+    log "Cleaning up old runs (only keeping the #{runs_to_keep} latest)..."
+    latest = @pipeline.latest_runs(runs_to_keep)
+    @pipeline.runs.where("id NOT IN (#{latest.pluck(:id).join(', ')})").destroy_all
   end
 
   def create_work_directory
@@ -61,7 +61,8 @@ class RunPipelineJob < ApplicationJob
     @run.commit_sha = commit.sha
     @run.commit_message = commit.message
     @run.save!
-    log "Commit is #{commit.sha} (#{commit.message}) by #{commit.author.email} at #{commit.date.strftime('%m-%d-%y')}"
+    log "Commit is #{commit.sha} (#{commit.message}) by "
+    + "#{commit.author.email} at #{commit.date.strftime('%m-%d-%y')}"
   end
 
   def read_config

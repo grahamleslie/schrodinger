@@ -22,7 +22,7 @@ class SecretsController < ApplicationController
   # POST /secrets
   # POST /secrets.json
   def create
-    @secret = Secret.new(secret_params)
+    @secret = Secret.new(permitted_params)
 
     respond_to do |format|
       if @secret.save
@@ -39,7 +39,7 @@ class SecretsController < ApplicationController
   # PATCH/PUT /secrets/1.json
   def update
     respond_to do |format|
-      if @secret.update(secret_params)
+      if @secret.update(permitted_params)
         format.html { redirect_to secrets_url, notice: 'Secret was successfully updated.' }
         format.json { head :ok }
       else
@@ -65,7 +65,7 @@ class SecretsController < ApplicationController
     @secret = Secret.find(params[:id])
   end
 
-  def secret_params
+  def permitted_params
     params.require(:secret).permit(:name, :value, :domain)
   end
 end

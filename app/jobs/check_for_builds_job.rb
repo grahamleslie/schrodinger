@@ -18,11 +18,11 @@ class CheckForBuildsJob < ApplicationJob
 
       next unless !latest.present? || latest.commit_sha != object.sha || latest.failed_at.present?
 
-      pipeline.runs.create({
-                             num: pipeline.next_run_num,
-                             branch: branch,
-                             triggered_by: 'scan'
-                           })
+      pipeline.runs.create!({
+        num: pipeline.next_run_num,
+        branch: branch,
+        triggered_by: 'scan'
+      })
     end
   rescue StandardError => e
     Rails.logger.warn "Failure during CheckForBuildsJob:\n#{e.message}"
