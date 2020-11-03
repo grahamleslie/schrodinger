@@ -10,6 +10,7 @@ ENV GIT_SSH_COMMAND="ssh -i /app/.ssh/\$GIT_IDENTITY_FILE -o StrictHostKeyChecki
 RUN mkdir /app
 WORKDIR /app
 COPY Gemfile /app/Gemfile
+COPY Gemfile.lock /app/Gemfile.lock
 RUN bundle install
 COPY . /app
 
