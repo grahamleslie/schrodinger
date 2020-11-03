@@ -13,7 +13,6 @@ COPY Gemfile /app/Gemfile
 RUN bundle install
 COPY . /app
 
-RUN bundle install # reinstall those gems if they are actually in the Gemfile
 RUN rails assets:precompile
 
 COPY entrypoint.sh /usr/bin/
