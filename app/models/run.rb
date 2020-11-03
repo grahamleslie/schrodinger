@@ -89,4 +89,16 @@ class Run < ApplicationRecord
       "#{minutes}m #{seconds}s"
     end
   end
+
+  def to_json(*)
+    super(methods: %i[
+      in_progress?
+      finished?
+      completed?
+      failed?
+      status
+      docker_tag
+      commit_sha_short
+    ])
+  end
 end

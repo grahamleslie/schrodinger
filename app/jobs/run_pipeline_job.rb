@@ -78,7 +78,7 @@ class RunPipelineJob < ApplicationJob
     log("Building image #{@run.docker_tag}...")
     command = <<~BASH
       docker build \\
-        #{@build_args} \\
+      #{@build_args}
         -f #{DOCKERFILE} \\
         -t #{@run.docker_tag} .
     BASH
@@ -98,8 +98,8 @@ class RunPipelineJob < ApplicationJob
     log("Running image #{name}...")
     command = <<~BASH
       docker run --name #{name} \\
-        #{@env_vars} \\
-        #{@config.run_args} \\
+      #{@env_vars}
+        #{@config.run_args.present? ? @config.run_args : '\\'}
         -t #{@run.docker_tag}
     BASH
     run_command(command, @run.work_directory)
@@ -120,12 +120,13 @@ class RunPipelineJob < ApplicationJob
   end
 
   def generate_vars_seq(flag)
+    return '  \\' if @secrets.empty?
+
     separator = <<~BASH
-      \\
 
     BASH
     @secrets.map do |secret|
-      "#{flag} #{secret.name}='#{secret.value}'"
+      "  #{flag} #{secret.name}='#{secret.value}' \\"
     end.join(separator)
   end
 

@@ -23,7 +23,7 @@ module PipelinesHelper
 
     private
 
-    def try_get_value(key, default=nil)
+    def try_get_value(key, default = nil)
       match = @content[/^[ ]*\#[ ]*#{key}\=.*$/]
       if match.nil?
         default

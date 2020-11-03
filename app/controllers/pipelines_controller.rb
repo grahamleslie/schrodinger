@@ -24,7 +24,11 @@ class PipelinesController < ApplicationController
   # GET /pipelines/1/run?branch=master
   def run
     branch = params[:branch]
-    @run = @pipeline.runs.create({ num: @pipeline.next_run_num, branch: branch, triggered_by: 'user' })
+    @run = @pipeline.runs.create({
+      num: @pipeline.next_run_num,
+      branch: branch,
+      triggered_by: 'user'
+    })
     redirect_to "/pipelines/#{@pipeline.id}/runs/#{@run.id}"
   end
 
