@@ -18,3 +18,9 @@ Layout/FirstHashElementIndentation:
 
 Metrics/AbcSize:
   Enabled: false
+
+Metrics/ClassLength:
+  Enabled: false
+
+Layout/HashAlignment:
+  Enabled: false

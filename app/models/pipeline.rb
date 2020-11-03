@@ -17,10 +17,10 @@ class Pipeline < ApplicationRecord
 
   validates :name, presence: true
   validates :repo, presence: true,
-                   format: {
-                     with: /git\@(.*).git/,
-                     message: 'please enter a valid git repository'
-                   }
+    format: {
+      with: /git\@(.*).git/,
+      message: 'please enter a valid git repository using a ssh url'
+    }
 
   scope :with_triggers, -> { where('triggers IS NOT NULL') }
 

@@ -7,8 +7,10 @@ class SecretsController < ApplicationController
   # GET /secrets.json
   def index
     @secrets = Secret.all.order(domain: :asc)
-    format.html { render :index }
-    format.json { render json: @secrets, status: :ok }
+    respond_to do |format|
+      format.html { render :index }
+      format.json { render json: @secrets, status: :ok }
+    end
   end
 
   # GET /secrets/new

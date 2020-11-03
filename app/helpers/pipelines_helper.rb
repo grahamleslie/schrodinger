@@ -13,10 +13,12 @@ module PipelinesHelper
     end
 
     def to_s
-      "* name:             #{@name}
-* run:              #{@run}
-* run_args:         #{@run_args}
-* remove_existing:  #{@remove_existing}"
+      <<~STR
+        * name:             #{@name}
+        * run:              #{@run}
+        * run_args:         #{@run_args}
+        * remove_existing:  #{@remove_existing}
+      STR
     end
 
     private
