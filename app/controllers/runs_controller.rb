@@ -12,6 +12,28 @@ class RunsController < ApplicationController
     end
   end
 
+  # POST /pipelines/1/runs
+  # POST /pipelines/1/runs.json
+  def create
+    branch = permitted_params[:branch]
+    @pipeline = Pipeline.find(params[:id])
+    @run = @pipeline.runs.create({
+      num: @pipeline.next_run_num,
+      branch: branch,
+      triggered_by: 'user'
+    })
+
+    respond_to do |format|
+      if @run.save
+        format.html { redirect_to "/pipelines/#{@pipeline.id}/runs/#{@run.id}" }
+        format.json { head :created, json: @run.to_json }
+      else
+        format.html { render :new }
+        format.json { render json: @run.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
   # DELETE /pipelines/1/runs/1
   # DELETE /pipelines/1/runs/1.json
   def destroy
@@ -22,5 +44,11 @@ class RunsController < ApplicationController
       format.html { redirect_to @pipeline, notice: 'Run was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  private
+
+  def permitted_params
+    params.require(:branch)
   end
 end

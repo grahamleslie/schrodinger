@@ -1,87 +1,80 @@
 <p id="notice"><%= notice %></p>
 <h1><%= @pipeline.name %> <span class="text-muted">#<%= @run.num %></span></h1>
-<h3><%= @run.status %></h3>
+<h3 data-object-property="status"><%= @run.status %></h3>
 <p>
-  Triggered by <code><%= @run.commit_sha_short %></code> on <code><%= @run.branch %></code> to <code><%= @run.commit_message %></code>.
+  Triggered by <code data-object-property="commit_sha_short"><%= @run.commit_sha_short %></code> on <code data-object-property="branch"><%= @run.branch %></code> to <code data-object-property="commit_message"><%= @run.commit_message %></code>.
 </p>
 <details id="details" onclick="javascript:toggleRefresh()">
   <summary>View Details...</summary>
   <p>
-    <strong>Competed At</strong>: <%= @run.completed_at || 'Hasn\'t Completed' %>
+    <strong>Competed At</strong>: <span data-object-property="completed_at"><%= @run.completed_at %></span>
   </p>
   <p>
-    <strong>Failed At</strong>: <%= @run.failed_at || 'Hasn\'t Failed' %>
+    <strong>Failed At</strong>: <span data-object-property="failed_at"><%= @run.failed_at %></span>
   </p>
   <p>
-    <strong>Duration</strong>: <%= @run.pretty_duration || 'Hasn\'t Completed' %>
+    <strong>Duration</strong>: <span data-object-property="pretty_duration"><%= @run.pretty_duration %></span>
   </p>
   <p>
-    <strong>Triggered By</strong>: <%= @run.triggered_by %>
+    <strong>Triggered By</strong>: <span data-object-property="triggered_by"><%= @run.triggered_by %></span>
   </p>
   <p>
     <strong>Work Directory</strong>:
   </p>
-  <code><%= @run.work_directory %></code>
+  <code data-object-property="work_directory"><%= @run.work_directory %></code>
 </details>
 <p>
   <input type="checkbox" name="refresh" id="refresh" checked="">
   <label for="refresh">Auto-Refresh</label>
 </p>
-<pre id="output">
+<pre data-object-property="output">
 <%= @run.output %>
 </pre>
 <%= link_to 'Back to Pipeline', pipeline_path(@pipeline) %>
 <script type="text/javascript">
   var refresh = document.getElementById('refresh');
-  if (<%= !@run.completed_at.nil? || !@run.failed_at.nil? %>) {
+  if (<%= !@run.in_progress? %>) {
+    refresh.checked = false;
     refresh.disabled = true;
   }
 
-  refresh.checked = <%= @run.in_progress? %>;
-
   function toggleRefresh() {
     setTimeout(function() {
-      var refresh = document.getElementById('refresh');
       var details = document.getElementById('details');
-      refresh.checked = details.hasAttribute('open') ? false : !refresh.checked;
+      refresh.checked = refresh && details && details.hasAttribute('open') ? false : !refresh.checked;
     }, 5);
   }
 
-  // Attribution: https://stackoverflow.com/a/48234990
-  var reloadWithTurbolinks = (function () {
-    var scrollPosition;
-    var focusId;
+  function fillFields(run) {
+    Object.keys(run).forEach((key) => {
+      document.querySelectorAll(`[data-object-property="${key}"]`).forEach((element) => {
+        element.innerText = run[key];
+      })
+    })
+  }
 
-    function reload() {
-      Turbolinks.visit(window.location.toString(), {action: 'replace'})
-    }
-
-    document.addEventListener('turbolinks:before-render', function () {
-      scrollPosition = [window.scrollX, window.scrollY];
-      focusId = document.activeElement.id;
-    });
-    document.addEventListener('turbolinks:load', function () {
-      if (scrollPosition) {
-        window.scrollTo.apply(window, scrollPosition);
-        scrollPosition = null
+  function refreshRun() {
+    setTimeout(() => {
+      if (refresh && !refresh.disabled) {
+        refreshRun();
       }
-      if (focusId) {
-        document.getElementById(focusId).focus();
-        focusId = null;
+
+      if (refresh && refresh.checked) {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+            run = JSON.parse(this.responseText);
+            fillFields(run);
+            if (!run["in_progress?"]) {
+              refresh.checked = false;
+              refresh.disabled = true;
+            }
+          }
+        };
+        xhttp.open('GET', `/pipelines/${<%= @pipeline.id %>}/runs/${<%= @run.id %>}.json`, true);
+        xhttp.send();
       }
-    });
-    return reload;
-  })();
-
-  var interval = setInterval(function(){
-    var refreshCheckbox = document.getElementById('refresh');
-    if (!refreshCheckbox) {
-      clearInterval(interval);
-      return;
-    }
-
-    if (refreshCheckbox.checked) {
-      reloadWithTurbolinks();
-    }
-  }, 1500);
+    }, 1500);
+  }
+  refreshRun();
 </script>

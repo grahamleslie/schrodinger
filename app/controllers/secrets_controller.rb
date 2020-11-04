@@ -7,6 +7,10 @@ class SecretsController < ApplicationController
   # GET /secrets.json
   def index
     @secrets = Secret.all.order(domain: :asc)
+    respond_to do |format|
+      format.html { render :index }
+      format.json { render json: @secrets, status: :ok }
+    end
   end
 
   # GET /secrets/new
@@ -20,7 +24,7 @@ class SecretsController < ApplicationController
   # POST /secrets
   # POST /secrets.json
   def create
-    @secret = Secret.new(secret_params)
+    @secret = Secret.new(permitted_params)
 
     respond_to do |format|
       if @secret.save
@@ -37,7 +41,7 @@ class SecretsController < ApplicationController
   # PATCH/PUT /secrets/1.json
   def update
     respond_to do |format|
-      if @secret.update(secret_params)
+      if @secret.update(permitted_params)
         format.html { redirect_to secrets_url, notice: 'Secret was successfully updated.' }
         format.json { head :ok }
       else
@@ -59,13 +63,11 @@ class SecretsController < ApplicationController
 
   private
 
-  # Use callbacks to share common setup or constraints between actions.
   def set_secret
     @secret = Secret.find(params[:id])
   end
 
-  # Only allow a list of trusted parameters through.
-  def secret_params
+  def permitted_params
     params.require(:secret).permit(:name, :value, :domain)
   end
 end

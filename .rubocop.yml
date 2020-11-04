@@ -3,3 +3,24 @@ Style/Documentation:
 
 Layout/LineLength:
   Max: 99
+
+Layout/MultilineMethodCallIndentation:
+  Enabled: false
+
+Style/Lambda:
+  Enabled: false
+
+Metrics/MethodLength:
+  Enabled: false
+
+Layout/FirstHashElementIndentation:
+  Enabled: false
+
+Metrics/AbcSize:
+  Enabled: false
+
+Metrics/ClassLength:
+  Enabled: false
+
+Layout/HashAlignment:
+  Enabled: false
