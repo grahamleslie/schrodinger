@@ -99,7 +99,7 @@ class RunPipelineJob < ApplicationJob
     command = <<~BASH
       docker run --name #{name} \\
       #{@env_vars}
-        #{@config.run_args.present? ? @config.run_args : '\\'}
+        #{@config.run_args} \\
         -t #{@run.docker_tag}
     BASH
     run_command(command, @run.work_directory)

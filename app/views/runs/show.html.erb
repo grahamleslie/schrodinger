@@ -53,8 +53,8 @@
     })
   }
 
-  setTimeout(() => {
-    setInterval(function() {
+  function refreshRun() {
+    setTimeout(() => {
       if (refresh && refresh.checked) {
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function() {
@@ -69,7 +69,9 @@
         };
         xhttp.open('GET', `/pipelines/${<%= @pipeline.id %>}/runs/${<%= @run.id %>}.json`, true);
         xhttp.send();
+        refreshRun();
       }
     }, 1500);
-  }, 1500);
+  }
+  refreshRun();
 </script>
