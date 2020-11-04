@@ -2,7 +2,7 @@
 <h1><%= @pipeline.name %> <span class="text-muted">#<%= @run.num %></span></h1>
 <h3 data-object-property="status"><%= @run.status %></h3>
 <p>
-  Triggered by <code data-object-property="commit_sha_short"><%= @run.commit_sha_short %></code> on <code data-object-property="branch"><%= @run.branch %></code> to <code data-object-property="commit_sha_short"><%= @run.commit_message %></code>.
+  Triggered by <code data-object-property="commit_sha_short"><%= @run.commit_sha_short %></code> on <code data-object-property="branch"><%= @run.branch %></code> to <code data-object-property="commit_message"><%= @run.commit_message %></code>.
 </p>
 <details id="details" onclick="javascript:toggleRefresh()">
   <summary>View Details...</summary>
@@ -55,6 +55,10 @@
 
   function refreshRun() {
     setTimeout(() => {
+      if (refresh && !refresh.disabled) {
+        refreshRun();
+      }
+
       if (refresh && refresh.checked) {
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function() {
@@ -69,7 +73,6 @@
         };
         xhttp.open('GET', `/pipelines/${<%= @pipeline.id %>}/runs/${<%= @run.id %>}.json`, true);
         xhttp.send();
-        refreshRun();
       }
     }, 1500);
   }
