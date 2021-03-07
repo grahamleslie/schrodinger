@@ -7,6 +7,7 @@ class RunPipelineJob < ApplicationJob
   queue_as :default
 
   DOCKERFILE = 'Dockerfile.schrodinger'
+  MAX_COMMAND_TIMEOUT_SECONDS = 1200
 
   def perform(run_id)
     @run = Run.find(run_id)
@@ -139,7 +140,7 @@ class RunPipelineJob < ApplicationJob
 
   def run_command(command, working_directory, fail_on_error: true)
     log(command)
-    cmd = Mixlib::ShellOut.new(command, cwd: working_directory)
+    cmd = Mixlib::ShellOut.new(command, cwd: working_directory, timeout: MAX_COMMAND_TIMEOUT_SECONDS)
     cmd.run_command
 
     if cmd.error? # rubocop:disable Style/GuardClause
