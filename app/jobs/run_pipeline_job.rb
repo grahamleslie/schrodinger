@@ -7,7 +7,7 @@ class RunPipelineJob < ApplicationJob
   queue_as :default
 
   DOCKERFILE = 'Dockerfile.schrodinger'
-  MAX_COMMAND_TIMEOUT_SECONDS = 1200
+  MAX_COMMAND_TIMEOUT_SECONDS = 1600
 
   def perform(run_id)
     @run = Run.find(run_id)
