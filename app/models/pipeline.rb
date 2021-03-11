@@ -31,11 +31,17 @@ class Pipeline < ApplicationRecord
 
     return 0 if durations.empty?
 
-    durations.inject { |sum, el| sum + el }.to_f / durations.size
+    seconds = durations.inject { |sum, el| sum + el }.to_f / durations.size
+
+    # NOTE: Sanity check for outliers; build should certainly finish
+    # before one hour elapses.
+    return 0 if seconds > 60 * 60
+
+    seconds
   end
 
   def pretty_average_duration
-    if average_duration_seconds.nil?
+    if average_duration_seconds.nil? || average_duration_seconds.zero?
       ''
     else
       minutes = (average_duration_seconds / 60).floor

@@ -4,4 +4,4 @@ bundle install
 rails db:migrate
 annotate --models -i
 annotate --routes
-rails s
+CLEANUP_KEEP_LATEST_RUNS=3 rails s

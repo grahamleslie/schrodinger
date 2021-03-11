@@ -75,9 +75,9 @@ class Run < ApplicationRecord
   end
 
   def duration_seconds
-    finished_at = completed_at || failed_at
+    finished_at = completed_at || failed_at || Time.now
 
-    finished? ? ((finished_at - created_at)).to_i : nil
+    (finished_at - created_at).to_i
   end
 
   def pretty_duration
@@ -86,6 +86,24 @@ class Run < ApplicationRecord
     else
       minutes = (duration_seconds / 60).floor
       seconds = (duration_seconds % 60).round
+      "#{minutes}m #{seconds}s"
+    end
+  end
+
+  def remaining_seconds
+    return nil if finished?
+    return nil if pipeline.average_duration_seconds.nil? || duration_seconds.nil?
+    return nil if pipeline.average_duration_seconds < duration_seconds
+
+    return pipeline.average_duration_seconds - duration_seconds
+  end
+
+  def pretty_remaining
+    if remaining_seconds.nil?
+      'N/A'
+    else
+      minutes = (remaining_seconds / 60).floor
+      seconds = (remaining_seconds % 60).round
       "#{minutes}m #{seconds}s"
     end
   end
@@ -99,6 +117,8 @@ class Run < ApplicationRecord
       status
       docker_tag
       commit_sha_short
+      pretty_duration
+      pretty_remaining
     ])
   end
 end

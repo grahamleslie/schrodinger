@@ -2,79 +2,82 @@
 <h1><%= @pipeline.name %> <span class="text-muted">#<%= @run.num %></span></h1>
 <h3 data-object-property="status"><%= @run.status %></h3>
 <p>
-  Triggered by <code data-object-property="commit_sha_short"><%= @run.commit_sha_short %></code> on <code data-object-property="branch"><%= @run.branch %></code> to <code data-object-property="commit_message"><%= @run.commit_message %></code>.
+    Triggered by <code data-object-property="commit_sha_short"><%= @run.commit_sha_short %></code> on <code data-object-property="branch"><%= @run.branch %></code> to <code data-object-property="commit_message"><%= @run.commit_message %></code>.
+</p>
+<p>
+    Estimated time remaining: <span data-object-property="pretty_remaining"><%= @run.pretty_remaining %></span>
 </p>
 <details id="details" onclick="javascript:toggleRefresh()">
-  <summary>View Details...</summary>
-  <p>
-    <strong>Competed At</strong>: <span data-object-property="completed_at"><%= @run.completed_at %></span>
-  </p>
-  <p>
-    <strong>Failed At</strong>: <span data-object-property="failed_at"><%= @run.failed_at %></span>
-  </p>
-  <p>
-    <strong>Duration</strong>: <span data-object-property="pretty_duration"><%= @run.pretty_duration %></span>
-  </p>
-  <p>
-    <strong>Triggered By</strong>: <span data-object-property="triggered_by"><%= @run.triggered_by %></span>
-  </p>
-  <p>
-    <strong>Work Directory</strong>:
-  </p>
-  <code data-object-property="work_directory"><%= @run.work_directory %></code>
+    <summary>View Details...</summary>
+    <p>
+        <strong>Competed At</strong>: <span data-object-property="completed_at"><%= @run.completed_at %></span>
+    </p>
+    <p>
+        <strong>Failed At</strong>: <span data-object-property="failed_at"><%= @run.failed_at %></span>
+    </p>
+    <p>
+        <strong>Duration</strong>: <span data-object-property="pretty_duration"><%= @run.pretty_duration %></span>
+    </p>
+    <p>
+        <strong>Triggered By</strong>: <span data-object-property="triggered_by"><%= @run.triggered_by %></span>
+    </p>
+    <p>
+        <strong>Work Directory</strong>:
+    </p>
+    <code data-object-property="work_directory"><%= @run.work_directory %></code>
 </details>
 <p>
-  <input type="checkbox" name="refresh" id="refresh" checked="">
-  <label for="refresh">Auto-Refresh</label>
+    <input type="checkbox" name="refresh" id="refresh" checked="">
+    <label for="refresh">Auto-Refresh</label>
 </p>
 <pre data-object-property="output">
 <%= @run.output %>
 </pre>
 <%= link_to 'Back to Pipeline', pipeline_path(@pipeline) %>
 <script type="text/javascript">
-  var refresh = document.getElementById('refresh');
-  if (<%= !@run.in_progress? %>) {
-    refresh.checked = false;
-    refresh.disabled = true;
-  }
+    var refresh = document.getElementById('refresh');
+    if (<%= !@run.in_progress? %>) {
+        refresh.checked = false;
+        refresh.disabled = true;
+    }
 
-  function toggleRefresh() {
-    setTimeout(function() {
-      var details = document.getElementById('details');
-      refresh.checked = refresh && details && details.hasAttribute('open') ? false : !refresh.checked;
-    }, 5);
-  }
+    function toggleRefresh() {
+        setTimeout(function() {
+            var details = document.getElementById('details');
+            refresh.checked = refresh && details && details.hasAttribute('open') ? false : !refresh.checked;
+        }, 5);
+    }
 
-  function fillFields(run) {
-    Object.keys(run).forEach((key) => {
-      document.querySelectorAll(`[data-object-property="${key}"]`).forEach((element) => {
-        element.innerText = run[key];
-      })
-    })
-  }
+    function fillFields(run) {
+        Object.keys(run).forEach((key) => {
+            document.querySelectorAll(`[data-object-property="${key}"]`).forEach((element) => {
+                element.innerText = run[key];
+            })
+        })
+    }
 
-  function refreshRun() {
-    setTimeout(() => {
-      if (refresh && !refresh.disabled) {
-        refreshRun();
-      }
-
-      if (refresh && refresh.checked) {
-        var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function() {
-          if (this.readyState == 4 && this.status == 200) {
-            run = JSON.parse(this.responseText);
-            fillFields(run);
-            if (!run["in_progress?"]) {
-              refresh.checked = false;
-              refresh.disabled = true;
+    function refreshRun() {
+        setTimeout(() => {
+            if (refresh && !refresh.disabled) {
+                refreshRun();
             }
-          }
-        };
-        xhttp.open('GET', `/pipelines/${<%= @pipeline.id %>}/runs/${<%= @run.id %>}.json`, true);
-        xhttp.send();
-      }
-    }, 1500);
-  }
-  refreshRun();
+
+            if (refresh && refresh.checked) {
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        run = JSON.parse(this.responseText);
+                        fillFields(run);
+                        if (!run["in_progress?"]) {
+                            refresh.checked = false;
+                            refresh.disabled = true;
+                        }
+                    }
+                };
+                xhttp.open('GET', `/pipelines/${<%= @pipeline.id %>}/runs/${<%= @run.id %>}.json`, true);
+                xhttp.send();
+            }
+        }, 1500);
+    }
+    refreshRun();
 </script>
