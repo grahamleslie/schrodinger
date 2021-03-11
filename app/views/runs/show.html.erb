@@ -7,7 +7,7 @@
 <p>
     Estimated time remaining: <span data-object-property="pretty_remaining"><%= @run.pretty_remaining %></span>
 </p>
-<details id="details" onclick="javascript:toggleRefresh()">
+<details id="details">
     <summary>View Details...</summary>
     <p>
         <strong>Competed At</strong>: <span data-object-property="completed_at"><%= @run.completed_at %></span>
@@ -39,13 +39,6 @@
     if (<%= !@run.in_progress? %>) {
         refresh.checked = false;
         refresh.disabled = true;
-    }
-
-    function toggleRefresh() {
-        setTimeout(function() {
-            var details = document.getElementById('details');
-            refresh.checked = refresh && details && details.hasAttribute('open') ? false : !refresh.checked;
-        }, 5);
     }
 
     function fillFields(run) {
