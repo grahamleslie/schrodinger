@@ -30,7 +30,7 @@ gem 'jbuilder', '~> 2.7'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false
 
-gem 'git', '~> 1.6'
+gem 'git', '~> 1.13'
 gem 'mixlib-shellout', '~> 3.0', '>= 3.0.9'
 gem 'rubocop', '~> 0.81.0'
 gem 'rufus-scheduler', '~> 3.6'
